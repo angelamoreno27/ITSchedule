@@ -6,7 +6,7 @@ import 'package:it_schedule/model/event.dart';
 import 'package:it_schedule/utils.dart';
 import 'package:it_schedule/provider/event_provider.dart';
 import 'package:provider/provider.dart';
-
+/*
 class EventViewingPage extends StatefulWidget {
   final Event event;
 
@@ -64,3 +64,4 @@ class EventViewingPage extends StatefulWidget {
 }
 
 
+*/
