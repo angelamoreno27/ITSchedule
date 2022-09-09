@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'Calander.dart';
+import 'Calendar.dart';
 import 'SignInScreen.dart';
 import 'LoginScreen.dart';
 import 'Campus.dart';
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final List _screens = [
     SignUpScreen(),
     LoginScreen(),
-    CalanderScreen(),
+    CalendarScreen(),
     CampusScreen()
   ];
 
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                   label: "Login", icon: Icon(Icons.no_accounts)),
               BottomNavigationBarItem(
-                  label: "Calander", icon: Icon(Icons.calendar_month)),
+                  label: "Calendar", icon: Icon(Icons.calendar_month)),
               BottomNavigationBarItem(
                   label: "Campus", icon: Icon(Icons.school)),
             ],
