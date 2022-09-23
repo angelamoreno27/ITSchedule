@@ -14,10 +14,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: FirebaseOptions(
-          apiKey: 'AIzaSyCj3zKui1YZ-h-v0zLckCMTpY0NqA4q17g',
-          appId: '1:451138854975:web:e2ec7f6c01f096b789588a',
-          messagingSenderId: '451138854975',
-          projectId: 'it-schedule'));
+          apiKey: 'AIzaSyAlkqhHQyMsS9GhitXTkYup33_fJuuVKEo',
+          appId: '1:647916935531:web:c198a573c9b0019b9c142e',
+          messagingSenderId: '647916935531',
+          projectId: 'itschedule'));
 
   runApp(MyApp());
 }

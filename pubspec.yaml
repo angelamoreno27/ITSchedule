@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   syncfusion_flutter_calendar: ^20.2.36
+  table_calendar: ^3.0.7
 
   # handle dates
   intl: ^0.17.0

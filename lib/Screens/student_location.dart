@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'user_screen.dart';
 import 'class_hours_screen.dart';
+import 'calendar_new.dart';
 
 class StudentLocation extends StatefulWidget {
   // String location;
@@ -87,8 +88,15 @@ class _StudentLocationState extends State<StudentLocation> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ClassHoursScreen()));
+                          builder: (context) => CalendarScreen()));
                 }
+
+                //  Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => ClassHoursScreen()));
+                // }
+
                 //: null,
                 ,
                 style: ElevatedButton.styleFrom(
