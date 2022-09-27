@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_application_1/course.dart';
 
-String hourValue = '8';
-String minuteValue = '30';
+String startHourValue = '8';
+String startMinuteValue = '30';
+String finishHourValue = '9';
+String finishMinuteValue = '30';
 List<bool> daysChecked = [false, false, false, false, false];
 
 class CalendarScreen extends StatefulWidget {
@@ -16,7 +18,8 @@ class TimeDropDownButton extends StatefulWidget {
 
   String format;
   String inputValue;
-  TimeDropDownButton(this.format, this.inputValue);
+  String classTime;
+  TimeDropDownButton(this.format, this.inputValue, this.classTime);
 
   @override
   _TimeDropDownButtonState createState() => _TimeDropDownButtonState();
@@ -37,10 +40,20 @@ class _TimeDropDownButtonState extends State<TimeDropDownButton>
           setState(() {
             widget.inputValue = value!;
             if(widget.format == "hours") {
-              hourValue = widget.inputValue;
+              if(widget.classTime == "start") {
+                startHourValue = widget.inputValue;
+              }
+              else {
+                finishHourValue = widget.inputValue;
+              }
             }
             else {
-              minuteValue = widget.inputValue;
+              if(widget.classTime == "start") {
+                startMinuteValue = widget.inputValue;
+              }
+              else {
+                finishMinuteValue = widget.inputValue;
+              }
             }
           });
         },
@@ -88,6 +101,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   TextEditingController courseNameController = TextEditingController();
 
   Map<DateTime, List<Course>> currentDaySchedule = {};
+  List<int> weekdays = [DateTime.monday, DateTime.tuesday, DateTime.wednesday, DateTime.thursday, DateTime.friday];
+  List<String>dayAbbreviations = ["M", "T", "W", "Th", "F"];
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +158,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              TimeDropDownButton("hours", hourValue),
+                              TimeDropDownButton("hours", startHourValue, "start"),
                               const Text(':', style: TextStyle(fontSize: 25),),
-                              TimeDropDownButton("minutes", minuteValue),
+                              TimeDropDownButton("minutes", startMinuteValue, "start"),
+                              const Text('-', style: TextStyle(fontSize: 25),),
+                              TimeDropDownButton("hours", finishHourValue, "finish"),
+                              const Text(':', style: TextStyle(fontSize: 25),),
+                              TimeDropDownButton("minutes", finishMinuteValue, "finish"),
                             ]
                           )
                         ),
@@ -156,11 +176,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               const Spacer(flex: 1,),
-                              if(chosenDay.weekday != DateTime.monday)...[ const Text("M"), const Spacer(flex: 1,),],
-                              if(chosenDay.weekday != DateTime.tuesday)...[ const Text("T"), const Spacer(flex: 1,),],
-                              if(chosenDay.weekday != DateTime.wednesday)...[ const Text("W"), const Spacer(flex: 1,),],
-                              if(chosenDay.weekday != DateTime.thursday)...[ const Text("Th"), const Spacer(flex: 1,),],
-                              if(chosenDay.weekday != DateTime.friday)...[ const Text("F"), const Spacer(flex: 1,),],
+                              for(int x = 0; x < 5; x++)
+                                if(chosenDay.weekday != weekdays[x])...[ Text(dayAbbreviations[x]), const Spacer(flex: 1,),],
                             ]
                           ),
                         ),
@@ -170,13 +187,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-
-                              if(chosenDay.weekday != DateTime.monday) WeekdayCheckbox(0),
-                              if(chosenDay.weekday != DateTime.tuesday) WeekdayCheckbox(1),
-                              if(chosenDay.weekday != DateTime.wednesday) WeekdayCheckbox(2),
-                              if(chosenDay.weekday != DateTime.thursday) WeekdayCheckbox(3),
-                              if(chosenDay.weekday != DateTime.friday) WeekdayCheckbox(4),
-
+                              const Spacer(flex: 1,),
+                              for(int x = 0; x < 5; x++)
+                                if(chosenDay.weekday != weekdays[x]) ... [WeekdayCheckbox(x), const Spacer(flex: 1,)],
                             ]
                           )
                         )
@@ -192,16 +205,38 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   TextButton(
                     child: const Text("Add"),
                     onPressed: () {
-                      String time = hourValue + ':' + ('0' + minuteValue).substring(minuteValue.length + 1 - 2);
+                      String startTime = startHourValue + ':' + ('0' + startMinuteValue).substring(startMinuteValue.length + 1 - 2);
+                      String finishTime = finishHourValue + ':' + ('0' + finishMinuteValue).substring(finishMinuteValue.length + 1 - 2);
                       if (courseNameController.text.isEmpty) {
                         
                       } 
                       else {
                         if (currentDaySchedule[chosenDay] == null) {
-                          currentDaySchedule[chosenDay] = [Course(courseNameController.text, time)];                          
+                          currentDaySchedule[chosenDay] = [Course(courseNameController.text, startTime, finishTime)];                          
                         } 
                         else {
-                          currentDaySchedule[chosenDay]?.add(Course(courseNameController.text, time));
+                          currentDaySchedule[chosenDay]?.add(Course(courseNameController.text, startTime, finishTime));
+
+                              // New Code Below!!!
+                                currentDaySchedule[chosenDay]?.sort((a, b) {
+                                  DateTime time1 = DateTime.now(), time2 = time1;
+                                  int hourInput = int.parse(a.courseStartTime.substring(0, a.courseStartTime.indexOf(":")));
+                                  int minuteInput = int.parse(a.courseStartTime.substring(a.courseStartTime.indexOf(":") + 1));
+                                  hourInput = (hourInput < 6) ? hourInput + 12 : hourInput;
+                                  
+                                  time1 = time1.add(Duration(hours: hourInput, minutes: minuteInput));
+                                  
+                                  hourInput = int.parse(b.courseStartTime.substring(0, b.courseStartTime.indexOf(":")));
+                                  minuteInput = int.parse(b.courseStartTime.substring(b.courseStartTime.indexOf(":") + 1));
+
+                                  hourInput = (hourInput < 6) ? hourInput + 12 : hourInput;
+                                  time2 = time2.add(Duration(hours: hourInput, minutes: minuteInput));
+
+                                  if(time1.isAfter(time2)) {
+                                    return 1;
+                                  }
+                                  return 0;
+                                });
                         }
                         
                         DateTime day = chosenDay;
@@ -212,58 +247,38 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           }
                         }
 
-                        if(chosenDay.weekday != DateTime.monday && daysChecked[0]) {
+                        for(int x = 0; x < 5; ++x) {
+                          if(chosenDay.weekday != weekdays[x] && daysChecked[x]) {
                               if(currentDaySchedule[day] == null) {
-                                currentDaySchedule[day] = [Course(courseNameController.text, time)];
+                                currentDaySchedule[day] = [Course(courseNameController.text, startTime, finishTime)];
                               }
                               else {
-                                currentDaySchedule[day]?.add(Course(courseNameController.text, time));
+                                currentDaySchedule[day]?.add(Course(courseNameController.text, startTime, finishTime));
+                              
+                              // New Code Below!!!
+                                currentDaySchedule[day]?.sort((a, b) {
+                                  DateTime time1 = DateTime.now(), time2 = time1;
+                                  int hourInput = int.parse(a.courseStartTime.substring(0, a.courseStartTime.indexOf(":")));
+                                  int minuteInput = int.parse(a.courseStartTime.substring(a.courseStartTime.indexOf(":") + 1));
+                                  hourInput = (hourInput < 6) ? hourInput + 12 : hourInput;
+                                  
+                                  time1 = time1.add(Duration(hours: hourInput, minutes: minuteInput));
+                                  
+                                  hourInput = int.parse(b.courseStartTime.substring(0, b.courseStartTime.indexOf(":")));
+                                  minuteInput = int.parse(b.courseStartTime.substring(b.courseStartTime.indexOf(":") + 1));
+
+                                  hourInput = (hourInput < 6) ? hourInput + 12 : hourInput;
+                                  time2 = time2.add(Duration(hours: hourInput, minutes: minuteInput));
+
+                                  if(time1.isAfter(time2)) {
+                                    return 1;
+                                  }
+                                  return 0;
+                                });
                               }
-                        }
-
-                        day = day.add(const Duration(days: 1));
-
-                        if(chosenDay.weekday != DateTime.tuesday && daysChecked[1]) {
-                          if(currentDaySchedule[day] == null) {
-                            currentDaySchedule[day] = [Course(courseNameController.text, time)];
                           }
-                          else {
-                            currentDaySchedule[day]?.add(Course(courseNameController.text, time));
-                          }
-                        }
-
-                        day = day.add(const Duration(days: 1));
-
-                        if(chosenDay.weekday != DateTime.wednesday && daysChecked[2]) {
-                          if(currentDaySchedule[day] == null) {
-                            currentDaySchedule[day] = [Course(courseNameController.text, time)];
-                          }
-                          else {
-                            currentDaySchedule[day]?.add(Course(courseNameController.text, time));
-                          }
-                        }
-
-                        day = day.add(const Duration(days: 1));
-
-                        if(chosenDay.weekday != DateTime.thursday && daysChecked[3]) {
-                          if(currentDaySchedule[day] == null) {
-                            currentDaySchedule[day] = [Course(courseNameController.text, time)];
-                          }
-                          else {
-                            currentDaySchedule[day]?.add(Course(courseNameController.text, time));
-                          }
-                        }
-
-                        day = day.add(const Duration(days: 1));
-
-                        if(chosenDay.weekday != DateTime.friday && daysChecked[4]) {
-                          if(currentDaySchedule[day] == null) {
-                            currentDaySchedule[day] = [Course(courseNameController.text, time)];
-                          }
-                          else {
-                            currentDaySchedule[day]?.add(Course(courseNameController.text, time));
-                          }
-                        }                      
+                          day = day.add(const Duration(days: 1));
+                        }            
 
                         Navigator.pop(context);
                         courseNameController.clear();
@@ -303,15 +318,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: IconButton(
                 icon: const Icon(Icons.highlight_remove, color: Colors.red, size: 25,),
                 onPressed: () {
-                  currentDaySchedule[chosenDay]?.removeWhere((deletedCourse) => deletedCourse.courseName == course.courseName && deletedCourse.courseTime == course.courseTime);
+                  currentDaySchedule[chosenDay]?.removeWhere((deletedCourse) => deletedCourse.courseName == course.courseName && deletedCourse.courseStartTime == course.courseStartTime && deletedCourse.courseEndTime == course.courseEndTime);
                   setState(() {});
                 },
               ),
             ),
 
-            title: Text(course.courseName, style: TextStyle(fontSize: 20),),
-            trailing: Text(course.courseTime, style: TextStyle(fontSize: 20),),                
+            title: Text(course.courseName, style: const TextStyle(fontSize: 20),),
+            trailing: Text(course.courseStartTime + "-" + course.courseEndTime, style: TextStyle(fontSize: 20),),                
           )
+        ),
+        ElevatedButton(
+          onPressed: () {
+            
+          }, 
+          child: Text("Generate Day Schedule")
         )
       ]
     );

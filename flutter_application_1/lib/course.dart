@@ -1,6 +1,7 @@
 class Course {
   String courseName;
-  String courseTime;
+  String courseStartTime;
+  String courseEndTime;
 
-  Course(this.courseName, this.courseTime);
+  Course(this.courseName, this.courseStartTime, this.courseEndTime);
 }
