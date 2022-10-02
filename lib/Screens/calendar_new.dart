@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:it_schedule/model/course.dart';
+// This is a comment.
 
 String hourValue = '8';
 String minuteValue = '30';
