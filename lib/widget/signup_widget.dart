@@ -46,12 +46,14 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             children: [
               SizedBox(height: 60),
               Text(
+                key: Key("welcome"),
                 'Hey There, \n Welcome',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 40),
               TextFormField(
+                key: Key("email"),
                 controller: emailController,
                 cursorColor: Colors.blue,
                 textInputAction: TextInputAction.next,
@@ -64,6 +66,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               SizedBox(height: 4),
               TextFormField(
+                key: Key("password"),
                 controller: passwordController,
                 cursorColor: Colors.blue,
                 textInputAction: TextInputAction.next,
@@ -76,6 +79,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               SizedBox(height: 4),
               TextFormField(
+                key: Key("confirm_pass"),
                 controller: confirmpassController,
                 cursorColor: Colors.blue,
                 textInputAction: TextInputAction.next,
@@ -93,22 +97,24 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 ),
                 icon: Icon(Icons.arrow_forward, size: 32),
                 label: Text('Sign Up', style: TextStyle(fontSize: 24)),
+                key: Key("sign_up"),
                 onPressed: signUp,
               ),
               SizedBox(height: 20),
               RichText(
+                  key: Key("login_btn"),
                   text: TextSpan(
                       style: TextStyle(color: Colors.blue),
                       text: 'Already have an account? ',
                       children: [
-                    TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = widget.onClickedSignIn,
-                        text: 'Log In',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Theme.of(context).colorScheme.secondary))
-                  ]))
+                        TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = widget.onClickedSignIn,
+                            text: 'Log In',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Theme.of(context).colorScheme.secondary))
+                      ]))
             ],
           )));
   Future signUp() async {
