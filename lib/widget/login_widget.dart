@@ -44,6 +44,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             height: 40,
           ),
           TextField(
+            key: Key("email_login"),
             controller: emailController,
             cursorColor: Colors.white,
             textInputAction: TextInputAction.next,
@@ -51,6 +52,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 4),
           TextField(
+            key: Key("password_login"),
             controller: passwordController,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(labelText: 'Password'),
@@ -58,6 +60,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           SizedBox(height: 20),
           ElevatedButton.icon(
+              key: Key("sign_in"),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size.fromHeight(50),
               ),
@@ -66,7 +69,21 @@ class _LoginWidgetState extends State<LoginWidget> {
               label: Text(
                 'Sign In',
                 style: TextStyle(fontSize: 24),
-              ))
+              )),
+          SizedBox(height: 20),
+          RichText(
+              text: TextSpan(
+                  style: TextStyle(color: Colors.blue),
+                  text: 'New User? ',
+                  children: [
+                TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickedSignUp,
+                    text: 'Create Account',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Theme.of(context).colorScheme.secondary))
+              ]))
         ],
       ));
   Future signIn() async {
