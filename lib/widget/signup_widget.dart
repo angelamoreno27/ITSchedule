@@ -82,7 +82,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 decoration: InputDecoration(labelText: 'Confirm password'),
                 obscureText: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) => value == passwordController
+                validator: (value) => value != passwordController.text
                     ? 'Passwords do not match'
                     : null,
               ),

@@ -34,7 +34,8 @@ class _TimeDropDownButtonState extends State<TimeDropDownButton>
   Widget build(BuildContext context){
     return StatefulBuilder(builder: ((context, setState) {
       return DropdownButton<String>(
-        iconSize: 0,
+        // iconSize: 0,
+        icon: Visibility(visible: false, child: Icon(Icons.arrow_downward)),
         value: widget.inputValue,
         onChanged: (String? value) {
           setState(() {
@@ -101,6 +102,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Map<DateTime, List<Course>> currentDaySchedule = {};
   List<int> weekdays = [DateTime.monday, DateTime.tuesday, DateTime.wednesday, DateTime.thursday, DateTime.friday];
   List<String>dayAbbreviations = ["M", "T", "W", "Th", "F"];
+  bool isDaySelected = false;
+  String error = "";
 
   List<Course> sortSchedule (List<Course> schedule) 
   {
@@ -168,278 +171,346 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          TableCalendar(
-            firstDay: DateTime.utc(2022, 5, 9),
-            lastDay: DateTime.utc(2023, 5, 9),
-            focusedDay: highlightedDay,
-            calendarFormat: formatOfCalendar,
-            enabledDayPredicate: (day) {
-              if (day.weekday == DateTime.saturday || day.weekday == DateTime.sunday) {
-                return false;
-              }
-              return true;
-            },
-            selectedDayPredicate: (day) {
-              return isSameDay(chosenDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                chosenDay = selectedDay;
-                highlightedDay = focusedDay;
-              });
-            },
-            onDayLongPressed: (selectedDay, focusedDay) {
-              setState(() {
-                chosenDay = selectedDay;
-                highlightedDay = focusedDay;
-              });
-              showDialog(
-                  context: context,
-                  builder: (context) => 
-                AlertDialog(
-                  content: Center(
-                    heightFactor: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Text("Add Course Name Below"),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                            hintText: 'Enter Course # Here'),
-                            controller: courseNameController,
-                          ),
-                          const Text("\nEnter Time Below"),
-                          Container(
-                            height: 40,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                TimeDropDownButton("hours", startHourValue, "start"),
-                                const Text(':', style: TextStyle(fontSize: 25),),
-                                TimeDropDownButton("minutes", startMinuteValue, "start"),
-                                const Text('-', style: TextStyle(fontSize: 25),),
-                                TimeDropDownButton("hours", finishHourValue, "finish"),
-                                const Text(':', style: TextStyle(fontSize: 25),),
-                                TimeDropDownButton("minutes", finishMinuteValue, "finish"),
-                              ]
-                            )
-                          ),
-                          const Text("\nWhat other days is it on?"),
-                          Container(
-                            height: 40,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Spacer(flex: 1,),
-                                for(int x = 0; x < 5; x++)
-                                  if(chosenDay.weekday != weekdays[x])...[ Text(dayAbbreviations[x]), const Spacer(flex: 1,),],
-                              ]
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Spacer(flex: 1,),
-                                for(int x = 0; x < 5; x++)
-                                  if(chosenDay.weekday != weekdays[x]) ... [WeekdayCheckbox(x), const Spacer(flex: 1,)],
-                              ]
-                            )
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            TableCalendar(
+              firstDay: DateTime.utc(2022, 5, 9),
+              lastDay: DateTime.utc(2023, 5, 9),
+              focusedDay: highlightedDay,
+              calendarFormat: formatOfCalendar,
+              enabledDayPredicate: (day) {
+                if (day.weekday == DateTime.saturday || day.weekday == DateTime.sunday) {
+                  return false;
+                }
+                return true;
+              },
+              selectedDayPredicate: (day) {
+                return isSameDay(chosenDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                isDaySelected = true;
+                if(selectedDay == chosenDay && highlightedDay == focusedDay) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => 
+                    AlertDialog(
+                      content: Center(
+                        heightFactor: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text("Add Course Name Below"),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.red),
+                                hintText: 'Enter Course # Here'),
+                                controller: courseNameController,
+                                validator: (value) => value!.isEmpty ? 'Please enter a course name' : null,
+                              ),
+                              const Text("\nEnter Time Below"),
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    TimeDropDownButton("hours", startHourValue, "start"),
+                                    const Text(':', style: TextStyle(fontSize: 25),),
+                                    TimeDropDownButton("minutes", startMinuteValue, "start"),
+                                    const Text('-', style: TextStyle(fontSize: 25),),
+                                    TimeDropDownButton("hours", finishHourValue, "finish"),
+                                    const Text(':', style: TextStyle(fontSize: 25),),
+                                    TimeDropDownButton("minutes", finishMinuteValue, "finish"),
+                                  ]
+                                )
+                              ),
+                              const Text("\nWhat other days is it on?"),
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    const Spacer(flex: 1,),
+                                    for(int x = 0; x < 5; x++)
+                                      if(chosenDay.weekday != weekdays[x])...[ Text(dayAbbreviations[x]), const Spacer(flex: 1,),],
+                                  ]
+                                ),
+                              ),
+                              Container(
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    const Spacer(flex: 1,),
+                                    for(int x = 0; x < 5; x++)
+                                      if(chosenDay.weekday != weekdays[x]) ... [WeekdayCheckbox(x), const Spacer(flex: 1,)],
+                                  ]
+                                )
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 20),
+                              //   child: Text(error, style: TextStyle(color: Colors.red))
+                              // )
+                            ]
                           )
-                        ]
-                      )
+                        )
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text("Back"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        TextButton(
+                          child: const Text("Add"),
+                          onPressed: () {
+                            String startTime = startHourValue + ':' + ('0' + startMinuteValue).substring(startMinuteValue.length + 1 - 2);
+                            String finishTime = finishHourValue + ':' + ('0' + finishMinuteValue).substring(finishMinuteValue.length + 1 - 2);
+                            Course newCourse = Course(courseNameController.text, startTime, finishTime);
+                            bool timeOccupied = false;
+
+
+                            if(currentDaySchedule[chosenDay] == null || currentDaySchedule[chosenDay]!.isEmpty){
+
+                            }
+                            else {
+                              for(int x = currentDaySchedule[chosenDay]!.length - 1; x >= 0; x--){
+
+                                if(currentDaySchedule[chosenDay]![x].courseName == "Possible Worktime") {
+                                  continue;
+                                }
+
+                                if((newCourse.courseEnd.hour <= currentDaySchedule[chosenDay]![x].courseEnd.hour && newCourse.courseEnd.hour >= currentDaySchedule[chosenDay]![x].courseStart.hour)
+                                  // || newCourse.courseEnd.hour == currentDaySchedule[chosenDay]![x].courseEnd.hour && newCourse.courseEnd.hour > currentDaySchedule[chosenDay]![x].courseEnd.hour
+                                  || newCourse.courseStart.hour <= currentDaySchedule[chosenDay]![x].courseEnd.hour && newCourse.courseStart.hour >= currentDaySchedule[chosenDay]![x].courseStart.hour
+                                ) {
+                                  timeOccupied = true;
+                                  break;
+                                }
+                              }
+                            }
+
+                            if (courseNameController.text.isEmpty || newCourse.courseStart.hour >= newCourse.courseEnd.hour || ((newCourse.courseEnd.hour - newCourse.courseStart.hour).abs() == 1 && newCourse.courseEnd.minute - newCourse.courseStart.minute < 0) || timeOccupied) {
+                              if( newCourse.courseStart.hour >= newCourse.courseEnd.hour || ((newCourse.courseEnd.hour - newCourse.courseStart.hour).abs() == 1 && newCourse.courseEnd.minute - newCourse.courseStart.minute < 0)) {
+                                error = "The course could not be added due to an invalid time input";
+                                Navigator.pop(context);
+                              }
+                              else if (timeOccupied){
+                                error = "The course could not be added due to the time input already being occupied.";
+                                Navigator.pop(context);
+                              }
+                              else{
+                                error = "";
+                              }
+                              setState(() {});
+                            } 
+                            else {
+                              if (currentDaySchedule[chosenDay] == null) {
+                                currentDaySchedule[chosenDay] = [newCourse];                          
+                              } 
+                              else {
+                                currentDaySchedule[chosenDay]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                                currentDaySchedule[chosenDay]?.add(newCourse);
+                                error = "";
+                                currentDaySchedule[chosenDay] = sortSchedule(currentDaySchedule[chosenDay]!);
+                              }
+                              DateTime day = chosenDay;
+                              for(int x = 0; x < 5; x++){
+                                if(DateTime.monday == chosenDay.subtract(Duration(days: x)).weekday) {
+                                  day = chosenDay.subtract(Duration(days: x));
+                                  break;
+                                }
+                              }
+
+                              for(int x = 0; x < 5; ++x) {
+                                if(chosenDay.weekday != weekdays[x] && daysChecked[x]) {
+                                    if(currentDaySchedule[day] == null) {
+                                      currentDaySchedule[day] = [newCourse];
+                                    }
+                                    else {
+                                      currentDaySchedule[day]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                                      currentDaySchedule[day]?.add(newCourse);
+                                      error = "";
+                                      currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                                    }
+                                    setState(() {});
+                                }
+                                day = day.add(const Duration(days: 1));
+                              }            
+
+                              Navigator.pop(context);
+                              courseNameController.clear();
+                              daysChecked = [false, false, false, false, false];
+                              setState(() {});
+                            }
+                          },
+                        ),
+                      ],
                     )
-                  ),
-                  actions: [
-                    TextButton(
-                      child: const Text("Back"),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    TextButton(
-                      child: const Text("Add"),
-                      onPressed: () {
-                        String startTime = startHourValue + ':' + ('0' + startMinuteValue).substring(startMinuteValue.length + 1 - 2);
-                        String finishTime = finishHourValue + ':' + ('0' + finishMinuteValue).substring(finishMinuteValue.length + 1 - 2);
-                        if (courseNameController.text.isEmpty) {
-                          
-                        } 
-                        else {
-                          if (currentDaySchedule[chosenDay] == null) {
-                            currentDaySchedule[chosenDay] = [Course(courseNameController.text, startTime, finishTime)];                          
-                          } 
-                          else {
-                            currentDaySchedule[chosenDay]?.add(Course(courseNameController.text, startTime, finishTime));
-                            currentDaySchedule[chosenDay] = sortSchedule(currentDaySchedule[chosenDay]!);
-                          }
-                          
-                          DateTime day = chosenDay;
-                          for(int x = 0; x < 5; x++){
-                            if(DateTime.monday == chosenDay.subtract(Duration(days: x)).weekday) {
-                              day = chosenDay.subtract(Duration(days: x));
-                              break;
-                            }
-                          }
+                  );
+                }
+                else {
+                  setState(() {
+                    chosenDay = selectedDay;
+                    highlightedDay = focusedDay;
+                  }
+                );
+                }
+              },
+              // onDayLongPressed: (selectedDay, focusedDay) {
 
-                          for(int x = 0; x < 5; ++x) {
-                            if(chosenDay.weekday != weekdays[x] && daysChecked[x]) {
-                                if(currentDaySchedule[day] == null) {
-                                  currentDaySchedule[day] = [Course(courseNameController.text, startTime, finishTime)];
-                                }
-                                else {
-                                  currentDaySchedule[day]?.add(Course(courseNameController.text, startTime, finishTime));
-                                  currentDaySchedule[chosenDay] = sortSchedule(currentDaySchedule[chosenDay]!);
-                                }
-                            }
-                            day = day.add(const Duration(days: 1));
-                          }            
-
-                          Navigator.pop(context);
-                          courseNameController.clear();
-                          daysChecked = [false, false, false, false, false];
-                          setState(() {});
-                        }
-                      },
-                    ),
-                  ],
-                )
-              );
-            },
-            onFormatChanged: (format) {
-              setState(() {
-                formatOfCalendar = format;
-              });
-            },
-            onPageChanged: ((focusedDay) {
-              highlightedDay = focusedDay;
-            }),
-            eventLoader: ((day) {
-              return currentDaySchedule[day] ?? [];
-            }),
-            calendarStyle: const CalendarStyle(
-              isTodayHighlighted: true,
-            ),
-            headerStyle: const HeaderStyle(
-              titleCentered: true,
-              // formatButtonVisible: false,
-            ),
-          ),
-          ...(currentDaySchedule[chosenDay] ?? []).map((Course course) => 
-            ListTile(
-              leading: SizedBox(
-                height: 40,
-                width: 40,
-                child: IconButton(
-                  icon: const Icon(Icons.highlight_remove, color: Colors.red, size: 25,),
-                  onPressed: () {
-                    currentDaySchedule[chosenDay]?.removeWhere((deletedCourse) => deletedCourse.courseName == course.courseName && deletedCourse.courseStartTime == course.courseStartTime && deletedCourse.courseEndTime == course.courseEndTime);
-                    setState(() {});
-                  },
-                ),
+              // },
+              onFormatChanged: (format) {
+                setState(() {
+                  formatOfCalendar = format;
+                });
+              },
+              onPageChanged: ((focusedDay) {
+                highlightedDay = focusedDay;
+              }),
+              eventLoader: ((day) {
+                return currentDaySchedule[day] ?? [];
+              }),
+              calendarStyle: const CalendarStyle(
+                isTodayHighlighted: true,
               ),
+              headerStyle: const HeaderStyle(
+                titleCentered: true,
+                // formatButtonVisible: false,
+              ),
+            ),
+            Text(error, style: TextStyle(color: Colors.red)),
+            ...(currentDaySchedule[chosenDay] ?? []).map((Course course) => 
+              ListTile(
+                leading: SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: IconButton(
+                    icon: const Icon(Icons.highlight_remove, color: Colors.red, size: 25,),
+                    onPressed: () {
+                      currentDaySchedule[chosenDay]?.removeWhere((deletedCourse) => deletedCourse.courseName == course.courseName && deletedCourse.courseStartTime == course.courseStartTime && deletedCourse.courseEndTime == course.courseEndTime);
+                      setState(() {});
+                    },
+                  ),
+                ),
 
-              title: Text(course.courseName, style: const TextStyle(fontSize: 20),),
-              trailing: Text(course.courseStartTime + "-" + course.courseEndTime, style: const TextStyle(fontSize: 20),),                
+                title: Text(course.courseName, style: const TextStyle(fontSize: 20),),
+                trailing: Text(course.courseStartTime + "-" + course.courseEndTime, style: const TextStyle(fontSize: 20),),                
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: ElevatedButton(
+                
+                onPressed: isDaySelected ? () {
+                TimeOfDay time3, time4;
+                int eventsAmount;
+                var temp;
+                int hourValue, minuteValue;
+
+
+                DateTime day = chosenDay;
+                for(int x = 0; x < 5; x++){
+                  if(DateTime.monday == day.subtract(Duration(days: x)).weekday) {
+                    day = day.subtract(Duration(days: x));
+                    break;
+                  }
+                }
+
+                for(int x = 0; x < 5; x++) {
+
+                  if(currentDaySchedule[day] == null || currentDaySchedule[day]!.isEmpty) {
+                    currentDaySchedule[day] = [Course("Possible Worktime", "8:00", "5:00")];
+                    error = "";
+                    setState(() {});
+                    day = day.add(const Duration(days: 1));
+                    continue;                         
+                  }
+
+                  eventsAmount = currentDaySchedule[day]!.length;
+                  temp = currentDaySchedule[day]?[0].courseStartTime;
+                  hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
+                  minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                  hourValue = adjustHour(hourValue, minuteValue, false);
+                  minuteValue = adjustMinute(minuteValue, false);
+                  time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
+
+                  if((time4.hour >= 9)) {
+                    String worktimeStart = "8:00";
+                    String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                    // currentDaySchedule[chosenDay]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                    error = "";
+                    currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                    currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                    eventsAmount++;
+                  }
+
+                  for(int x = 0; x < eventsAmount - 1;) {
+                    temp = currentDaySchedule[day]?[x].courseEndTime;
+
+                    hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
+                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                    hourValue = adjustHour(hourValue, minuteValue, true);
+                    minuteValue = adjustMinute(minuteValue, true);
+
+                    time3 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                    temp = currentDaySchedule[day]?[++x].courseStartTime;
+                    
+                    hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
+                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                    hourValue = adjustHour(hourValue, minuteValue, false);
+                    minuteValue = adjustMinute(minuteValue, false);
+
+                    time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                    
+                    if(time3.hour < time4.hour && !(((time3.hour - time4.hour).abs() == 1) && time3.minute > time4.minute)) {
+                      String worktimeStart = (time3.hour > 12 ? time3.hour - 12 : time3.hour).toString() + ":" + ('0' + time3.minute.toString()).substring(time3.minute.toString().length + 1 - 2);
+                      String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                      error = "";
+
+                      // currentDaySchedule[day]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                      currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                      currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                      eventsAmount++;
+                    }
+                  }
+
+                  for(int i = eventsAmount - 1; i >= 0; i--) {
+                    temp = currentDaySchedule[day]?[i].courseEndTime;
+
+                    hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
+                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                    hourValue = adjustHour(hourValue, minuteValue, true);
+                    minuteValue = adjustMinute(minuteValue, true);
+
+                    time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                    bool singleCourse = eventsAmount - 1 == i ? true : false;
+                    bool clearSchedule = singleCourse ? true : (int.parse(currentDaySchedule[day]![i + 1].courseStartTime.substring(0, currentDaySchedule[day]![i + 1].courseStartTime.indexOf(":"))) < 17 ? false : true);
+
+                    if(clearSchedule && (time4.hour < 16 || (16 == time4.hour && time4.minute == 0))) {
+                      String worktimeStart = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                      String worktimeEnd = "5:00";
+                      error = "";
+                      currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                      currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                      eventsAmount++;
+                      setState(() {});
+                      break;
+                    }
+                  }
+                  setState(() {});
+                  day = day.add(const Duration(days: 1));
+                  }
+                } : null, 
+                child: const Text("Generate Week Schedule")
+              )
             )
-          ),
-          ElevatedButton(
-            onPressed: () {
-            TimeOfDay time3, time4;
-            int eventsAmount;
-            var temp;
-            int hourValue, minuteValue;
-
-
-            DateTime day = chosenDay;
-            for(int x = 0; x < 5; x++){
-              if(DateTime.monday == day.subtract(Duration(days: x)).weekday) {
-                day = day.subtract(Duration(days: x));
-                break;
-              }
-            }
-
-            for(int x = 0; x < 5; x++) {
-
-              if(currentDaySchedule[day] == null || currentDaySchedule[day]!.isEmpty) {
-                currentDaySchedule[day] = [Course("Possible Worktime", "8:00", "5:00")];
-                setState(() {});
-                day = day.add(const Duration(days: 1));
-                continue;                         
-              }
-
-              eventsAmount = currentDaySchedule[day]!.length;
-              temp = currentDaySchedule[day]?[0].courseStartTime;
-              hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
-              minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-              hourValue = adjustHour(hourValue, minuteValue, false);
-              minuteValue = adjustMinute(minuteValue, false);
-              time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-
-              if(8 < time4.hour || (8 == time4.hour && 0 < time4.minute)) {
-                String worktimeStart = "8:00";
-                String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                eventsAmount++;
-              }
-
-              for(int x = 0; x < eventsAmount - 1;) {
-                temp = currentDaySchedule[day]?[x].courseEndTime;
-
-                hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
-                minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                hourValue = adjustHour(hourValue, minuteValue, true);
-                minuteValue = adjustMinute(minuteValue, true);
-
-                time3 = TimeOfDay(hour: hourValue, minute: minuteValue);
-                temp = currentDaySchedule[day]?[++x].courseStartTime;
-                
-                hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
-                minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                hourValue = adjustHour(hourValue, minuteValue, false);
-                minuteValue = adjustMinute(minuteValue, false);
-
-                time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-                
-                if(time3.hour < time4.hour || (time3.hour == time4.hour && time3.minute < time4.minute)) {
-                  String worktimeStart = (time3.hour > 12 ? time3.hour - 12 : time3.hour).toString() + ":" + ('0' + time3.minute.toString()).substring(time3.minute.toString().length + 1 - 2);
-                  String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                  currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                  currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                  eventsAmount++;
-                }
-              }
-
-                temp = currentDaySchedule[day]?[eventsAmount - 1].courseEndTime;
-
-                hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
-                minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                hourValue = adjustHour(hourValue, minuteValue, true);
-                minuteValue = adjustMinute(minuteValue, true);
-
-                time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-
-                if(time4.hour < 17 || (16 == time4.hour && time4.minute == 0)) {
-                  String worktimeStart = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                  String worktimeEnd = "5:00";
-                  currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                  currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                  eventsAmount++;
-                }
-              setState(() {});
-              day = day.add(const Duration(days: 1));
-              }
-            }, 
-            child: const Text("Generate Week Schedule")
-          )
-        ]
+          ]
+        )
       )
     );
   }
