@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
-import 'package:it_schedule/Screens/class_schedule.dart';
+import 'package:it_schedule/Screens/class_schedule_admin.dart';
 import 'package:flutter/material.dart';
 import 'student_info.dart';
-import 'package:it_schedule/Screens/class_schedule.dart';
+import 'package:it_schedule/Screens/class_schedule_admin.dart';
 
 class StudentDetailPage extends StatelessWidget {
   final int index;
