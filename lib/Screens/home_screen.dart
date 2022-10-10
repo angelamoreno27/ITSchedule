@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/class_hours_screen.dart';
 import 'package:it_schedule/Screens/student_location.dart';
 import 'package:it_schedule/Screens/user_screen.dart';
+import 'package:it_schedule/admin/admin_panel.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -42,7 +43,18 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => UserScreen()));
-                    })
+                    }),
+                SizedBox(height: 40),
+                ElevatedButton(
+                    child: Text('Admin'),
+                    onPressed: //student || manager ?
+                        () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminPanel()));
+                    }),
+
               ],
             )));
   }
