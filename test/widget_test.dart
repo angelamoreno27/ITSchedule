@@ -9,11 +9,13 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 
 import 'package:it_schedule/main.dart';
 import 'package:it_schedule/widget/signup_widget.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('Sign Up Testing', (WidgetTester tester) async {
     final email = find.byKey(ValueKey("email"));
     final pass = find.byKey(ValueKey("password"));
