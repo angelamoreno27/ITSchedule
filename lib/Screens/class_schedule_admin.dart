@@ -19,7 +19,9 @@ Widget _classSchedule(BuildContext context) {
       height: 200,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       color: Colors.blue.withOpacity(0.1),
-      child: Column(children: const [Text("Class Schedule")]),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [Text("Students class schedule will be here")]),
     ),
     onTap: () {
       Navigator.push(

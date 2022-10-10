@@ -23,16 +23,18 @@ ListView _adminPanel(BuildContext context) {
     itemBuilder: (_, index) {
       return Card(
         elevation: 10,
-        child: ListTile(
-          title: Text(location[index].name),
-          leading: Icon(Icons.location_city),
-          trailing: Icon(Icons.arrow_forward),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => StudentDetailPage(index)));
-          },
+        child: SizedBox(
+          child: ListTile(
+            title: Text(location[index].name),
+            leading: Icon(Icons.location_city),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StudentDetailPage(index)));
+            },
+          ),
         ),
       );
     },

@@ -5,7 +5,8 @@ class TimeSlots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Class Scheldule Page'),
+          title: const Text('Time Slots Page'),
+          
         ),
         body: _classSchedule(context));
   }
