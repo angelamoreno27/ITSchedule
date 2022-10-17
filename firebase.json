@@ -3,7 +3,7 @@
     "source": "functions"
   },
   "hosting": {
-    "site": "itschedule.web.app",
+    "site": "itschedule",
     "public": "build/web",
     "ignore": [
       "firebase.json",
