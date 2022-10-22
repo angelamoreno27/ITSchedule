@@ -44,17 +44,6 @@ class HomePage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => UserScreen()));
                     }),
-                SizedBox(height: 40),
-                ElevatedButton(
-                    child: Text('Admin'),
-                    onPressed: //student || manager ?
-                        () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AdminPanel()));
-                    }),
-
               ],
             )));
   }
