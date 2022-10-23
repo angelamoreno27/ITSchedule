@@ -1,6 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:it_schedule/model/course.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import "package:it_schedule/model/database.dart";
 
 String startHourValue = '8';
 String startMinuteValue = '30';
@@ -104,7 +109,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   List<String>dayAbbreviations = ["M", "T", "W", "Th", "F"];
   bool isDaySelected = false;
   String error = "";
-
+  final user = FirebaseAuth.instance.currentUser!;
+  Map<String, List<String>> firebaseSchedule = {};
+ 
   List<Course> sortSchedule (List<Course> schedule) 
   {
     schedule.sort((a, b) {
@@ -384,6 +391,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
             ),
             Text(error, style: TextStyle(color: Colors.red)),
+                //             Text(
+                //   user.email!,
+                //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                // ),
             ...(currentDaySchedule[chosenDay] ?? []).map((Course course) => 
               ListTile(
                 leading: SizedBox(
@@ -407,6 +418,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: ElevatedButton(
                 
                 onPressed: isDaySelected ? () {
+                // print(firebaseSchedule);
+                firebaseSchedule = {};
                 TimeOfDay time3, time4;
                 int eventsAmount;
                 var temp;
@@ -422,10 +435,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 }
 
                 for(int x = 0; x < 5; x++) {
-
                   if(currentDaySchedule[day] == null || currentDaySchedule[day]!.isEmpty) {
                     currentDaySchedule[day] = [Course("Possible Worktime", "8:00", "5:00")];
                     error = "";
+                    firebaseSchedule[x.toString()] = ["8:00-5:00"];
+                    firebaseSchedule[x.toString()]?.add("Possible Worktime");
                     setState(() {});
                     day = day.add(const Duration(days: 1));
                     continue;                         
@@ -450,6 +464,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   }
 
                   for(int x = 0; x < eventsAmount - 1;) {
+
                     temp = currentDaySchedule[day]?[x].courseEndTime;
 
                     hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
@@ -502,9 +517,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       break;
                     }
                   }
+                  for(int y = 0; y < currentDaySchedule[day]!.length; y++) {
+                    if(firebaseSchedule[x.toString()] == null)
+                      firebaseSchedule[x.toString()] = [currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime];
+                    else
+                      firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime);
+                    firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseName);
+                  }
                   setState(() {});
                   day = day.add(const Duration(days: 1));
                   }
+                ClassHelper.saveSchedule(user, firebaseSchedule);
+                
                 } : null, 
                 child: const Text("Generate Week Schedule")
               )
