@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:it_schedule/model/course.dart';
+import 'dart:convert';
+
 
 class ClassHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -35,7 +37,10 @@ class ClassHelper {
     });
   }
 
-  // static getSchedule(User? user) async {
-  //   await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]["0"]));
-  // }
+  Future<Map<String, dynamic>> getSchedule(User? user) async {
+    // await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]));
+    Map<String, dynamic> schedule = {};
+    await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */ schedule = value.data()?["schedule"]);
+    return schedule;
+  }
 }
