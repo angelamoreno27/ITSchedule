@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'user_screen.dart';
 import 'class_hours_screen.dart';
 import 'calendar_new.dart';
+import 'manager_pin.dart';
 
 class StudentLocation extends StatefulWidget {
   // String location;
@@ -100,9 +101,9 @@ class _StudentLocationState extends State<StudentLocation> {
                 //: null,
                 ,
                 style: ElevatedButton.styleFrom(
-                    primary: // brownsville || edinburg || riobank ?
+                    primary:  brownsville! || edinburg! || riobank! ?
                         Colors.blue
-                    // : Colors.grey,
+                     : Colors.grey,
                     ),
                 child: Text('Continue'))
           ],
