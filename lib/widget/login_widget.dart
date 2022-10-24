@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_auth_email/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:it_schedule/Screens/calendar_new.dart';
 import 'package:it_schedule/main.dart';
 import 'package:it_schedule/utils.dart';
 
@@ -102,6 +103,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
       Utils.showSnackBar(e.message);
     }
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => CalendarScreen())));
   }
 }
