@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:it_schedule/Screens/manager_pin.dart';
 import 'package:it_schedule/Screens/student_location.dart';
 import 'package:it_schedule/widget/signup_widget.dart';
 import 'jobs_screen.dart';
@@ -74,20 +75,28 @@ class _UserScreenState extends State<UserScreen> {
             ElevatedButton(
                 key: Key('continueDeviceButton'),
                 onPressed:
-                    //  student || manager ?
+                      student! || manager! ?
                     () {
-                  Navigator.push(
+                      if(student!){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StudentLocation()));
+                      }
+                      else if( manager!){
+                         Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StudentLocation()));
-                },
-
-                //  : null,
+                          builder: (context) => ManagerPIN()));
+                      }
+                    
+                }
+                  : null,
 
                 style: ElevatedButton.styleFrom(
-                    primary: //student || manager ?
+                    primary: student! || manager! ?
                         Colors.blue
-                    //: Colors.grey,
+                    : Colors.grey,
                     ),
                 child: Text('Continue')),
           ],
