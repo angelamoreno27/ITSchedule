@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -415,123 +416,213 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: ElevatedButton(
-                
-                onPressed: isDaySelected ? () {
-                // print(firebaseSchedule);
-                firebaseSchedule = {};
-                TimeOfDay time3, time4;
-                int eventsAmount;
-                var temp;
-                int hourValue, minuteValue;
+
+              
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Spacer(flex: 1,),
+                  ElevatedButton( onPressed: isDaySelected ? () {
+                  // print(firebaseSchedule);
+                    firebaseSchedule = {};
+                    TimeOfDay time3, time4;
+                    int eventsAmount;
+                    var temp;
+                    int hourValue, minuteValue;
 
 
-                DateTime day = chosenDay;
-                for(int x = 0; x < 5; x++){
-                  if(DateTime.monday == day.subtract(Duration(days: x)).weekday) {
-                    day = day.subtract(Duration(days: x));
-                    break;
-                  }
-                }
-
-                for(int x = 0; x < 5; x++) {
-                  if(currentDaySchedule[day] == null || currentDaySchedule[day]!.isEmpty) {
-                    currentDaySchedule[day] = [Course("Possible Worktime", "8:00", "5:00")];
-                    error = "";
-                    firebaseSchedule[x.toString()] = ["8:00-5:00"];
-                    firebaseSchedule[x.toString()]?.add("Possible Worktime");
-                    setState(() {});
-                    day = day.add(const Duration(days: 1));
-                    continue;                         
-                  }
-
-                  eventsAmount = currentDaySchedule[day]!.length;
-                  temp = currentDaySchedule[day]?[0].courseStartTime;
-                  hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
-                  minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                  hourValue = adjustHour(hourValue, minuteValue, false);
-                  minuteValue = adjustMinute(minuteValue, false);
-                  time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-
-                  if((time4.hour >= 9)) {
-                    String worktimeStart = "8:00";
-                    String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                    // currentDaySchedule[chosenDay]?.removeWhere((course) => course.courseName == "Possible Worktime");
-                    error = "";
-                    currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                    currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                    eventsAmount++;
-                  }
-
-                  for(int x = 0; x < eventsAmount - 1;) {
-
-                    temp = currentDaySchedule[day]?[x].courseEndTime;
-
-                    hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
-                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                    hourValue = adjustHour(hourValue, minuteValue, true);
-                    minuteValue = adjustMinute(minuteValue, true);
-
-                    time3 = TimeOfDay(hour: hourValue, minute: minuteValue);
-                    temp = currentDaySchedule[day]?[++x].courseStartTime;
-                    
-                    hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
-                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                    hourValue = adjustHour(hourValue, minuteValue, false);
-                    minuteValue = adjustMinute(minuteValue, false);
-
-                    time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-                    
-                    if(time3.hour < time4.hour && !(((time3.hour - time4.hour).abs() == 1) && time3.minute > time4.minute)) {
-                      String worktimeStart = (time3.hour > 12 ? time3.hour - 12 : time3.hour).toString() + ":" + ('0' + time3.minute.toString()).substring(time3.minute.toString().length + 1 - 2);
-                      String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                      error = "";
-
-                      // currentDaySchedule[day]?.removeWhere((course) => course.courseName == "Possible Worktime");
-                      currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                      currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                      eventsAmount++;
+                    DateTime day = chosenDay;
+                    for(int x = 0; x < 5; x++){
+                      if(DateTime.monday == day.subtract(Duration(days: x)).weekday) {
+                        day = day.subtract(Duration(days: x));
+                        break;
+                      }
                     }
-                  }
 
-                  for(int i = eventsAmount - 1; i >= 0; i--) {
-                    temp = currentDaySchedule[day]?[i].courseEndTime;
+                    for(int x = 0; x < 5; x++) {
+                      if(currentDaySchedule[day] == null || currentDaySchedule[day]!.isEmpty) {
+                        currentDaySchedule[day] = [Course("Possible Worktime", "8:00", "5:00")];
+                        error = "";
+                        firebaseSchedule[x.toString()] = ["8:00-5:00"];
+                        firebaseSchedule[x.toString()]?.add("Possible Worktime");
+                        setState(() {});
+                        day = day.add(const Duration(days: 1));
+                        continue;                         
+                      }
 
-                    hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
-                    minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
-                    hourValue = adjustHour(hourValue, minuteValue, true);
-                    minuteValue = adjustMinute(minuteValue, true);
+                      eventsAmount = currentDaySchedule[day]!.length;
+                      temp = currentDaySchedule[day]?[0].courseStartTime;
+                      hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
+                      minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                      hourValue = adjustHour(hourValue, minuteValue, false);
+                      minuteValue = adjustMinute(minuteValue, false);
+                      time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
 
-                    time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
-                    bool singleCourse = eventsAmount - 1 == i ? true : false;
-                    bool clearSchedule = singleCourse ? true : (int.parse(currentDaySchedule[day]![i + 1].courseStartTime.substring(0, currentDaySchedule[day]![i + 1].courseStartTime.indexOf(":"))) < 17 ? false : true);
+                      if((time4.hour >= 9)) {
+                        String worktimeStart = "8:00";
+                        String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                        // currentDaySchedule[chosenDay]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                        error = "";
+                        currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                        currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                        eventsAmount++;
+                      }
 
-                    if(clearSchedule && (time4.hour < 16 || (16 == time4.hour && time4.minute == 0))) {
-                      String worktimeStart = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
-                      String worktimeEnd = "5:00";
-                      error = "";
-                      currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
-                      currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
-                      eventsAmount++;
+                      for(int x = 0; x < eventsAmount - 1;) {
+
+                        temp = currentDaySchedule[day]?[x].courseEndTime;
+
+                        hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
+                        minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                        hourValue = adjustHour(hourValue, minuteValue, true);
+                        minuteValue = adjustMinute(minuteValue, true);
+
+                        time3 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                        temp = currentDaySchedule[day]?[++x].courseStartTime;
+                        
+                        hourValue = int.parse(temp!.substring(0, temp.indexOf(":")));
+                        minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                        hourValue = adjustHour(hourValue, minuteValue, false);
+                        minuteValue = adjustMinute(minuteValue, false);
+
+                        time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                        
+                        if(time3.hour < time4.hour && !(((time3.hour - time4.hour).abs() == 1) && time3.minute > time4.minute)) {
+                          String worktimeStart = (time3.hour > 12 ? time3.hour - 12 : time3.hour).toString() + ":" + ('0' + time3.minute.toString()).substring(time3.minute.toString().length + 1 - 2);
+                          String worktimeEnd = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                          error = "";
+
+                          // currentDaySchedule[day]?.removeWhere((course) => course.courseName == "Possible Worktime");
+                          currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                          currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                          eventsAmount++;
+                        }
+                      }
+
+                      for(int i = eventsAmount - 1; i >= 0; i--) {
+                        temp = currentDaySchedule[day]?[i].courseEndTime;
+
+                        hourValue = int.parse(temp.substring(0, temp.indexOf(":")));
+                        minuteValue = int.parse(temp.substring(temp.indexOf(":") + 1));
+                        hourValue = adjustHour(hourValue, minuteValue, true);
+                        minuteValue = adjustMinute(minuteValue, true);
+
+                        time4 = TimeOfDay(hour: hourValue, minute: minuteValue);
+                        bool singleCourse = eventsAmount - 1 == i ? true : false;
+                        bool clearSchedule = singleCourse ? true : (int.parse(currentDaySchedule[day]![i + 1].courseStartTime.substring(0, currentDaySchedule[day]![i + 1].courseStartTime.indexOf(":"))) < 17 ? false : true);
+
+                        if(clearSchedule && (time4.hour < 16 || (16 == time4.hour && time4.minute == 0))) {
+                          String worktimeStart = (time4.hour > 12 ? time4.hour - 12 : time4.hour).toString() + ":" + ('0' + time4.minute.toString()).substring(time4.minute.toString().length + 1 - 2);
+                          String worktimeEnd = "5:00";
+                          error = "";
+                          currentDaySchedule[day]?.add(Course("Possible Worktime", worktimeStart, worktimeEnd));
+                          currentDaySchedule[day] = sortSchedule(currentDaySchedule[day]!);
+                          eventsAmount++;
+                          setState(() {});
+                          break;
+                        }
+                      }
+                      for(int y = 0; y < currentDaySchedule[day]!.length; y++) {
+                        if(firebaseSchedule[x.toString()] == null)
+                          firebaseSchedule[x.toString()] = [currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime];
+                        else
+                          firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime);
+                        firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseName);
+                      }
                       setState(() {});
-                      break;
-                    }
-                  }
-                  for(int y = 0; y < currentDaySchedule[day]!.length; y++) {
-                    if(firebaseSchedule[x.toString()] == null)
-                      firebaseSchedule[x.toString()] = [currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime];
-                    else
-                      firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime);
-                    firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseName);
-                  }
-                  setState(() {});
-                  day = day.add(const Duration(days: 1));
-                  }
-                ClassHelper.saveSchedule(user, firebaseSchedule);
-                
-                } : null, 
-                child: const Text("Generate Week Schedule")
-              )
+                      day = day.add(const Duration(days: 1));
+                      }
+                    ClassHelper.saveSchedule(user, firebaseSchedule);
+                    
+                    } : null, 
+                    child: const Text("Generate Week Schedule")
+                  ),
+                  const Spacer(flex: 1,),
+                  // FutureBuilder(
+                  //   future: ClassHelper.getSchedule(user),
+                  //   builder: (context, snapshot) {
+                      
+                  //   },
+
+                  // )
+                  ElevatedButton( onPressed: /*firebaseSchedule.length > 0 ?*/ () {
+
+                  showDialog(
+                      context: context,
+                      builder: (context) => 
+                    AlertDialog(
+                      content: Center(
+                        heightFactor: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              FutureBuilder( 
+                                // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
+                                future: ClassHelper().getSchedule(user),
+                                builder: (context, snapshot) {
+                                  List<Widget> shifts;
+                                  if(snapshot.hasData) {
+                                    Map<String,dynamic> schedule = snapshot.data!;
+                                    List<String> shiftString = ["", "", "", "", ""];
+                                    for(int dayIndex = 0; dayIndex < 5; dayIndex++) {
+                                      if(schedule[dayIndex.toString()] != null)
+                                        for(int courseIndex = 0; courseIndex < schedule[dayIndex.toString()].length; courseIndex += 2) {
+                                          if(schedule[dayIndex.toString()][courseIndex + 1] == "Possible Worktime")
+                                            shiftString[dayIndex] = shiftString[dayIndex] + schedule[dayIndex.toString()][courseIndex] + ": " + schedule[dayIndex.toString()][courseIndex + 1] + "\n";
+                                        }
+                                      if(shiftString[dayIndex] == "")
+                                        shiftString[dayIndex] = "No Worktimes Available\n";
+                                    }
+                                    shifts = <Widget>[
+                                      Text(dayAbbreviations[0], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      Text(shiftString[0]),
+                                      Text(dayAbbreviations[1], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      Text(shiftString[1]),
+                                      Text(dayAbbreviations[2], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      Text(shiftString[2]),
+                                      Text(dayAbbreviations[3], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      Text(shiftString[3]),
+                                      Text(dayAbbreviations[4], style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      Text(shiftString[4]),                                      
+                                    ];
+                                }
+                                  else
+                                    shifts = <Widget>[Text("Please Wait...")];
+                                  return Column(
+                                    children: shifts
+                                  );
+                                },
+                              )
+                            ]
+                          )
+                        )
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text("Back"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    )
+                  );
+
+
+
+                  }/* : null*/,
+                    child: const Text("View Shifts")
+                    // FutureBuilder( 
+                    //   future: ClassHelper().getSchedule(user),
+                    //   builder: (context, snapshot) {
+                    //     return Text(json.encode(snapshot.data));
+                    //   },
+                    // )
+                  ),
+                  const Spacer(flex: 1,),
+                ]
+              ),
             )
           ]
         )
