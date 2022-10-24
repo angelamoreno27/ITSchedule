@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'user_screen.dart';
 import 'class_hours_screen.dart';
 import 'calendar_new.dart';
+import 'student_info.dart';
 
 class StudentLocation extends StatefulWidget {
   // String location;
@@ -85,10 +86,8 @@ class _StudentLocationState extends State<StudentLocation> {
                 key: Key('continueDeviceButton'),
                 onPressed: // brownsville || edinburg || riobank ?
                     () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CalendarScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => StudentInfo()));
                 }
 
                 //  Navigator.push(
