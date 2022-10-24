@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:it_schedule/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 //import 'package:firebase_options/firebase_options.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -26,12 +27,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmpassController = TextEditingController();
+  final fullnameController = TextEditingController();
+  final sidController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     confirmpassController.dispose();
+    fullnameController.dispose();
+    sidController.dispose();
 
     super.dispose();
   }
@@ -53,11 +58,29 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               SizedBox(height: 40),
               TextFormField(
+                key: Key("full_name"),
+                controller: fullnameController,
+                cursorColor: Colors.blue,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(labelText: 'Full Name'),
+              ),
+              SizedBox(height: 4),
+              TextFormField(
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                key: Key("student_id"),
+                controller: sidController,
+                cursorColor: Colors.blue,
+                textInputAction: TextInputAction.next,
+                decoration:
+                    InputDecoration(labelText: 'UTRGV Student ID Number'),
+              ),
+              SizedBox(height: 4),
+              TextFormField(
                 key: Key("email"),
                 controller: emailController,
                 cursorColor: Colors.blue,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(labelText: 'UTRGV Email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) =>
                     email != null && !EmailValidator.validate(email)
@@ -83,7 +106,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 controller: confirmpassController,
                 cursorColor: Colors.blue,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'Confirm password'),
+                decoration: InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) => value != passwordController.text
