@@ -7,6 +7,7 @@ import 'package:it_schedule/model/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:it_schedule/model/database.dart";
+import 'package:it_schedule/main.dart';
 
 String startHourValue = '8';
 String startMinuteValue = '30';
@@ -619,6 +620,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     //     return Text(json.encode(snapshot.data));
                     //   },
                     // )
+                  ),
+                  const Spacer(flex: 1,),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // setState(() {}),
+                      await FirebaseAuth.instance.signOut();
+                      
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => CalendarScreen())),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainPage()));
+                      
+                      setState(() {});
+                    },
+                    child: const Text("Sign Out")
                   ),
                   const Spacer(flex: 1,),
                 ]

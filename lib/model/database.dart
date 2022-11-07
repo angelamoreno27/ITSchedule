@@ -37,10 +37,25 @@ class ClassHelper {
     });
   }
 
+  static saveManagerSchedule(String userId, Map<String, List<String>> schedule) async {
+    final userRef = _db.collection("users").doc(userId);
+    await userRef.update({
+      "schedule": schedule,
+    });
+  }
+
   Future<Map<String, dynamic>> getSchedule(User? user) async {
     // await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]));
     Map<String, dynamic> schedule = {};
     await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */ schedule = value.data()?["schedule"]);
     return schedule;
   }
+
+  Future<Map<String, dynamic>> getManagerSchedule(String userId) async {
+    // await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]));
+    Map<String, dynamic> schedule = {};
+    await _db.collection("users").doc(userId).get().then((value) => /*schedule = value["schedule"]; */ schedule = value.data()?["schedule"]);
+    return schedule;
+  }
+
 }
