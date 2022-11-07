@@ -6,7 +6,7 @@ import 'dart:convert';
 
 
 class ClassSchedule extends StatelessWidget {
-
+  List<String>weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   DocumentSnapshot docSnapshot;
   ClassSchedule(this.docSnapshot);
 
@@ -18,17 +18,34 @@ class ClassSchedule extends StatelessWidget {
       ),
       body: InkWell(
         child: Container(
-          width: 200,
-          height: 200,
+          width: 400,
+          height: 400,
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           color: Colors.blue.withOpacity(0.1),
-          child: Column(
+          child: 
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text('${json.encode(docSnapshot['schedule'])}')]),
+              children: [
+                for(int i = 0; i < 5; i++) ...[
+                  Text(weekdays[i]),
+                  if(docSnapshot['schedule'][i.toString()] != null)
+                  for(int j = 0; j < docSnapshot['schedule'][i.toString()].length; j+=2)...[
+                    if(docSnapshot['schedule'][i.toString()][j+1] != "Possible Worktime")
+                    Row(
+                      children: [
+                        Spacer(flex: 1),                
+                        Text("${docSnapshot['schedule'][i.toString()][j]}  ${docSnapshot['schedule'][i.toString()][j+1]}"),
+                        Spacer(flex: 1),
+                      ],
+                    )
+                  ]
+                ],
+              ]
+            ),
         ),
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => TimeSlots()));
+              context, MaterialPageRoute(builder: (context) => TimeSlotsScreen(docSnapshot)));
         },
       )
     );

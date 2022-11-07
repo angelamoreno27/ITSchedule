@@ -63,6 +63,8 @@ StreamBuilder _studentDetail(BuildContext context) {
                     const SizedBox(height: 10),
                     Text('Position: currently unavailable'),
                     const SizedBox(height: 10),
+                    Text('ID : ${docSnapshot.id}'),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
