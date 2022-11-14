@@ -11,7 +11,7 @@ class LoginWidget extends StatefulWidget {
 
   const LoginWidget({
     Key? key,
-    required this.onClickedSignUp,
+   required this.onClickedSignUp,
   }) : super(key: key);
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
