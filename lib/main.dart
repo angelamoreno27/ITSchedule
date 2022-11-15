@@ -1,16 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:it_schedule/Screens/class_hours_screen.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/page/auth_page.dart';
 import 'package:it_schedule/provider/event_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:it_schedule/widget/login_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:it_schedule/utils.dart';
-import 'package:intl/intl.dart';
+import 'Splash_screen/splashScreen.dart';
 import "model/database.dart";
 
 Future main() async {
@@ -64,7 +61,8 @@ class MainPage extends StatelessWidget {
               ClassHelper.saveUser(snapshot.data);
               return HomePage();
             } else {
-              return AuthPage();
+              return //AuthPage();
+              splashScreen();
             }
           },
         ),
