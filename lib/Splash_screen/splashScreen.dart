@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:html';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
@@ -61,8 +62,7 @@ class splashScreenBody extends StatelessWidget {
         child: SafeArea(
           child: ResponsiveWidget(
               desktop: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [const Expanded(child: LoginAndSignUpButton())],
+            children: [const Expanded(child: LandingPage())],
           )),
         ),
       ),

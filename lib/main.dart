@@ -61,8 +61,8 @@ class MainPage extends StatelessWidget {
               ClassHelper.saveUser(snapshot.data);
               return HomePage();
             } else {
-              return AuthPage();
-              //splashScreen();
+              return //AuthPage();
+              splashScreen();
             }
           },
         ),
