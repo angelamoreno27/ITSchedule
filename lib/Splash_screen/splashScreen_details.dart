@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:it_schedule/model/constants.dart';
+import 'package:it_schedule/widget/new_login_screen.dart';
+import 'package:it_schedule/widget/new_signin_screen.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -31,37 +33,11 @@ class LandingPage extends StatelessWidget {
             ),
             Row(
               children: [
-                MaterialButton(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 40.0),
-                    child: Text(
-                      "SignIn",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ),
+                GoToSignInPage(),
                 SizedBox(
                   width: 10,
                 ),
-                MaterialButton(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 40.0),
-                    child: Text(
-                      "Login",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ),
+                GoToLoginPage(),
               ],
             )
           ],
@@ -91,5 +67,53 @@ class LandingPage extends StatelessWidget {
         );
       }
     });
+  }
+}
+
+class GoToSignInPage extends StatelessWidget {
+  const GoToSignInPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => SignUpPage())));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
+        child: Text(
+          "SignIn",
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
+    );
+  }
+}
+
+class GoToLoginPage extends StatelessWidget {
+  const GoToLoginPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => LoginPage())));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
+        child: Text(
+          "Login",
+          style: TextStyle(color: Colors.red),
+        ),
+      ),
+    );
   }
 }

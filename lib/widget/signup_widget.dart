@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
 import 'package:it_schedule/main.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -43,100 +44,151 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Form(
           key: formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 60),
-              Text(
+              const SizedBox(height: 60),
+              const Text(
                 key: Key("welcome"),
-                'Hey There, \n Welcome',
+                'Create An Account ',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                    letterSpacing: 3,
+                    color: largeText2),
               ),
-              SizedBox(height: 40),
+              const SizedBox(
+                height: 8,
+              ),
+              const Text(
+                'Please Use Your UTRGV Credentials When Creating The Account',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w100,
+                    letterSpacing: 3,
+                    color: smallText2),
+              ),
+              const SizedBox(height: 40),
               TextFormField(
-                key: Key("full_name"),
+                key: const Key("full_name"),
                 controller: fullnameController,
-                cursorColor: Colors.blue,
+                cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'Full Name'),
+                decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    labelText: 'Full Name'),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 10),
               TextFormField(
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                key: Key("student_id"),
+                key: const Key("student_id"),
                 controller: sidController,
-                cursorColor: Colors.blue,
+                cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                decoration:
-                    InputDecoration(labelText: 'UTRGV Student ID Number'),
+                decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    labelText: 'UTRGV Student ID Number'),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 10),
               TextFormField(
-                key: Key("email"),
+                key: const Key("email"),
                 controller: emailController,
-                cursorColor: Colors.blue,
+                cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'UTRGV Email'),
+                decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    labelText: 'UTRGV Email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) =>
                     email != null && !EmailValidator.validate(email)
                         ? 'Enter a valid email'
                         : null,
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 10),
               TextFormField(
-                key: Key("password"),
+                key: const Key("password"),
                 controller: passwordController,
-                cursorColor: Colors.blue,
+                cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    labelText: 'Password'),
                 obscureText: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) => value != null && value.length < 6
                     ? 'Enter minimum of 6 characters'
                     : null,
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 10),
               TextFormField(
-                key: Key("confirm_pass"),
+                key: const Key("confirm_pass"),
                 controller: confirmpassController,
-                cursorColor: Colors.blue,
+                cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
+                decoration: InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    labelText: 'Confirm Password'),
                 obscureText: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) => value != passwordController.text
                     ? 'Passwords do not match'
                     : null,
               ),
-              SizedBox(height: 20),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50),
-                ),
-                icon: Icon(Icons.arrow_forward, size: 32),
-                label: Text('Sign Up', style: TextStyle(fontSize: 24)),
-                key: Key("sign_up"),
-                onPressed: signUp,
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 75,
+                width: 250,
+                child: ElevatedButton.icon(
+                    key: const Key("sign_up"),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        padding: const EdgeInsets.all(20),
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        backgroundColor: BtnColor),
+                    onPressed: signUp,
+                    icon: const Icon(Icons.lock_open, size: 30),
+                    label: const Text(
+                      'Sign Up',
+                      style: TextStyle(fontSize: 24),
+                    )),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               RichText(
-                  key: Key("login_btn"),
+                  key: const Key("login_btn"),
                   text: TextSpan(
-                      style: TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: smallText2),
                       text: 'Already have an account? ',
                       children: [
                         TextSpan(
                             recognizer: TapGestureRecognizer()
                               ..onTap = widget.onClickedSignIn,
                             text: 'Log In',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 decoration: TextDecoration.underline,
-                                color: Theme.of(context).colorScheme.secondary))
+                                color: smallText2))
                       ]))
             ],
           )));
@@ -146,7 +198,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()));
+        builder: (context) => const Center(child: CircularProgressIndicator()));
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),

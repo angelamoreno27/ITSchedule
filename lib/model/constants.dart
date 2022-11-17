@@ -9,7 +9,12 @@ const navBar_smallText = Color(0xFFFFFFFF);
 
 //BackGround Colors
 const largeText = Color(0xFFFFFFFF);
+const largeText2 = Colors.black;
 const smallText = Color(0xFFFFFFFF);
+const smallText2 = Colors.black;
+
+const BtnColor = Color.fromRGBO(30, 30, 30, 75);
+const Btn2Color = Colors.orange;
 const backgroundGradColor = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -18,6 +23,7 @@ const backgroundGradColor = LinearGradient(
       Color.fromRGBO(255, 62, 0, 100)
     ]);
 const backgroundColor = Color.fromRGBO(255, 62, 0, 100);
+const boxColor = Colors.white;
 
 //Button Colors
 const buttonColor = Color(0xFF3E00);
