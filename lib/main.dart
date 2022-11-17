@@ -3,12 +3,15 @@ import 'package:it_schedule/Screens/home_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/page/auth_page.dart';
 import 'package:it_schedule/provider/event_provider.dart';
+import 'package:it_schedule/widget/new_login_screen.dart';
+import 'package:it_schedule/widget/new_signin_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:it_schedule/utils.dart';
 import 'Splash_screen/splashScreen.dart';
 import "model/database.dart";
+import 'package:google_fonts/google_fonts.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,8 +64,10 @@ class MainPage extends StatelessWidget {
               ClassHelper.saveUser(snapshot.data);
               return HomePage();
             } else {
-              return AuthPage();
-              //splashScreen();
+              return //AuthPage();
+                  splashScreen();
+              //LoginPage();
+              //SignUpPage();
             }
           },
         ),
