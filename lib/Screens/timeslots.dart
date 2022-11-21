@@ -37,11 +37,15 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
   String startMinuteValue = '30';
   String finishHourValue = '9';
   String finishMinuteValue = '30';
-  String day = "";
+  String earlyHourValue = '8';
+  String earlyMinuteValue = '30';
+  String lateHourValue = '9';
+  String lateMinuteValue = '30';  String day = "";
   int shiftIndex = 0;
   List<String> hours = List<String>.generate(12, (i) => '${i + 1}');
   List<String> minutes = List<String>.generate(12, (i) => '${i * 5}');
   Map<String, List<String>> firebaseSchedule = {};
+  bool validUpdate = false;
 
   // for(int x = 0; x < 5; x++) {
   //   if(docSnapshot['schedule'][x.toString()] != null) {
@@ -100,6 +104,8 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
+                                        Text("Max Shift Time"),
+                                        Text("${docSnapshot['constantSchedule'][i.toString()][j]}"),
                                         Text("Current Shift Time"),
                                         Text("${firebaseSchedule[i.toString()]![j]}"),
                                         Text("New Shift Time"),
@@ -121,11 +127,18 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                               finishMinuteValue = firebaseSchedule[i.toString()]![j].substring(firebaseSchedule[i.toString()]![j].indexOf("-") + 1).substring(
                                                 firebaseSchedule[i.toString()]![j].substring(firebaseSchedule[i.toString()]![j].indexOf("-") + 1).indexOf(":") + 1);
 
-
-                                              print("${startMinuteValue}  ${finishMinuteValue}");
+                                              earlyHourValue = docSnapshot['constantSchedule'][i.toString()]![j].substring(0, docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-")).substring(
+                                                0, docSnapshot['constantSchedule'][i.toString()]![j].substring(0, docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-")).indexOf(":"));
+                                              earlyMinuteValue = docSnapshot['constantSchedule'][i.toString()]![j].substring(0, docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-")).substring(
+                                                docSnapshot['constantSchedule'][i.toString()]![j].substring(0, docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-")).indexOf(":") + 1);
+                                              lateHourValue = docSnapshot['constantSchedule'][i.toString()]![j].substring(docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-") + 1).substring(
+                                                0, docSnapshot['constantSchedule'][i.toString()]![j].substring(docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-") + 1).indexOf(":"));
+                                              lateMinuteValue = docSnapshot['constantSchedule'][i.toString()]![j].substring(docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-") + 1).substring(
+                                                docSnapshot['constantSchedule'][i.toString()]![j].substring(docSnapshot['constantSchedule'][i.toString()]![j].indexOf("-") + 1).indexOf(":") + 1);
+                                              print(earlyHourValue + earlyMinuteValue + lateHourValue + lateMinuteValue);
+                                              print(startHourValue + startMinuteValue + finishHourValue + finishMinuteValue);
                                               return Text("");
                                             })),
-        
         
                                             StatefulBuilder(builder: ((context, setState) {
                                               return DropdownButton<String>(
@@ -135,7 +148,7 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                                 onChanged: (String? value) {
                                                   setState(() {
                                                     startHourValue = value!;
-                                                  });
+                                                  });      
                                                 },
                                                 items: hours.map<DropdownMenuItem<String>>((String value) {
                                                   return DropdownMenuItem<String>(
@@ -227,23 +240,31 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                   TextButton(
                                     child: const Text("Update"),
                                     onPressed: () {
+                                      validUpdate = (int.parse(startHourValue) < 6 ? int.parse(startHourValue) + 12 : int.parse(startHourValue)) >= (int.parse(earlyHourValue) < 6 ? int.parse(earlyHourValue) + 12 : int.parse(earlyHourValue))
+                                      && !((int.parse(startHourValue) < 6 ? int.parse(startHourValue) + 12 : int.parse(startHourValue)) == (int.parse(earlyHourValue) < 6 ? int.parse(earlyHourValue) + 12 : int.parse(earlyHourValue)) && int.parse(earlyMinuteValue) > int.parse(startMinuteValue))
+                                      && (int.parse(startHourValue) < 6 ? int.parse(startHourValue) + 12 : int.parse(startHourValue)) < (int.parse(finishHourValue) < 6 ? int.parse(finishHourValue) + 12 : int.parse(finishHourValue))
+                                      && (int.parse(startHourValue) < 6 ? int.parse(startHourValue) + 12 : int.parse(startHourValue)) < (int.parse(lateHourValue) < 6 ? int.parse(lateHourValue) + 12 : int.parse(lateHourValue))
+                                      && (int.parse(lateHourValue) < 6 ? int.parse(lateHourValue) + 12 : int.parse(lateHourValue)) >= (int.parse(finishHourValue) < 6 ? int.parse(finishHourValue) + 12 : int.parse(finishHourValue))
+                                      && !((int.parse(lateHourValue) < 6 ? int.parse(lateHourValue) + 12 : int.parse(lateHourValue)) == (int.parse(finishHourValue) < 6 ? int.parse(finishHourValue) + 12 : int.parse(finishHourValue)) && int.parse(finishMinuteValue) > int.parse(lateMinuteValue));
+                                      if(validUpdate) {
+                                        String startTime = startHourValue + ':' + ('0' + startMinuteValue).substring(startMinuteValue.length + 1 - 2);
+                                        String finishTime = finishHourValue + ':' + ('0' + finishMinuteValue).substring(finishMinuteValue.length + 1 - 2);
+                                        firebaseSchedule[day]![shiftIndex] = startTime + "-" + finishTime;
+                                        print(firebaseSchedule[day]![shiftIndex]);
 
-                                      String startTime = startHourValue + ':' + ('0' + startMinuteValue).substring(startMinuteValue.length + 1 - 2);
-                                      String finishTime = finishHourValue + ':' + ('0' + finishMinuteValue).substring(finishMinuteValue.length + 1 - 2);
-                                      firebaseSchedule[day]![shiftIndex] = startTime + "-" + finishTime;
-                                      print(firebaseSchedule[day]![shiftIndex]);
-
-                                      // ClassHelper.saveSchedule(user, firebaseSchedule);
+                                        // ClassHelper.saveSchedule(user, firebaseSchedule);
 
 
-                                      ClassHelper.saveManagerSchedule(docSnapshot.id, firebaseSchedule);
-                                      Navigator.pop(context);
-                                      Navigator.pop(context);
+                                        ClassHelper.saveManagerSchedule(docSnapshot.id, firebaseSchedule);
+                                        validUpdate = false;
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => TimeSlotsScreen(docSnapshot)));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => TimeSlotsScreen(docSnapshot)));
+                                      }
                                     },
                                   ),
                                   

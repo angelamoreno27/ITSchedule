@@ -10,6 +10,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 //import 'package:firebase_options/firebase_options.dart';
+import 'package:it_schedule/model/database.dart';
+
 
 class SignUpWidget extends StatefulWidget {
   final Function() onClickedSignIn;
@@ -205,6 +207,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         password: passwordController.text.trim(),
         //confirmpassword: confirmpassController.text.trim(),
       );
+      ClassHelper.saveName(FirebaseAuth.instance.currentUser, fullnameController.text);
     } on FirebaseAuthException catch (e) {
       print(e);
 

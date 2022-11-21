@@ -7,15 +7,27 @@ import 'dart:convert';
 class ClassHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  static saveName(User? user, String name) async {
+    final userRef = _db.collection("users").doc(user?.uid);
+    await userRef.set({
+      "name": name,
+      "email": user?.email,
+      "last_login": user?.metadata.lastSignInTime,
+      "role": "user",
+      "schedule": {},
+      "constantSchedule" : {}
+    });
+  }
+
   static saveUser(User? user) async {
     Map<int, List<String>> scheduleData = {};
 
     Map<String, dynamic> userData = {
-      "name": user?.displayName,
       "email": user?.email,
       "last_login": user?.metadata.lastSignInTime,
       "role": "user",
-      "schedule": scheduleData
+      "schedule": scheduleData,
+      "constantSchedule" : scheduleData
     };
 
     final userRef = _db.collection("users").doc(user?.uid);
@@ -26,7 +38,7 @@ class ClassHelper {
         "role": "student",
       });
     } else {
-      await _db.collection("users").doc(user?.uid).set(userData);
+      await _db.collection("users").doc(user?.uid).update(userData);
     }
   }
 
@@ -34,6 +46,7 @@ class ClassHelper {
     final userRef = _db.collection("users").doc(user?.uid);
     await userRef.update({
       "schedule": schedule,
+      "constantSchedule" : schedule
     });
   }
 
