@@ -5,32 +5,63 @@ import 'package:it_schedule/Screens/class_schedule_admin.dart';
 import 'package:flutter/material.dart';
 import 'student_info.dart';
 import 'package:it_schedule/Screens/class_schedule_admin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:it_schedule/main.dart';
+import 'campusSchedule.dart';
+
 
 
 class StudentDetailPage extends StatelessWidget {
   final int index;
+  final String location;
+  final user = FirebaseAuth.instance.currentUser!;
 
-  StudentDetailPage(this.index);
+  StudentDetailPage(this.index, this.location);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Student Details Page'),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CampusScheduleScreen(location: location,)));     
+            },
+            child: Text("View Campus Schedule")
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MainPage()));                      
+            },
+            child: const Text("Sign Out")
+          ),        
+
+        ],
       ),
-      body: _studentDetail(context),
+      body: _studentDetail(context, location),
     );
   }
 }
 
-StreamBuilder _studentDetail(BuildContext context) {
+StreamBuilder _studentDetail(BuildContext context, String location) {
   final CollectionReference _students = FirebaseFirestore.instance.collection('users');
+  print(location);
   return StreamBuilder(
     stream: _students.snapshots(),
     builder: (context, snapshot) {
     if(snapshot.hasData) {
       List<int> studentIndices = [];
       for(int i = 0; i < snapshot.data!.docs.length; i++)
+        if(snapshot.data!.docs[i]['role'] != "manager" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == location)
         // if(snapshot.data!.docs[i]['email'][0] == 't')
           studentIndices.add(i);
       return ListView.builder(
@@ -57,13 +88,15 @@ StreamBuilder _studentDetail(BuildContext context) {
                   children: [
                     Text('Student Name : ${docSnapshot['name']}'),
                     const SizedBox(height: 10),
-                    Text('Job Title : ${docSnapshot['email']}'),
+                    Text('Student Email : ${docSnapshot['email']}'),
                     const SizedBox(height: 10),
-                    Text('Job Title : ${docSnapshot['role']}'),
-                    const SizedBox(height: 10),
+                    // Text('Database Role : ${docSnapshot['role']}'),
+                    // const SizedBox(height: 10),
                     Text('Position: currently unavailable'),
                     const SizedBox(height: 10),
-                    Text('ID : ${docSnapshot.id}'),
+                    // Text('ID : ${docSnapshot.id}'),
+                    // const SizedBox(height: 10),
+                    Text('Location : ${docSnapshot['location']}'),
                     const SizedBox(height: 10),
                   ],
                 ),

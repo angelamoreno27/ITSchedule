@@ -3,6 +3,9 @@ import 'user_screen.dart';
 import 'class_hours_screen.dart';
 import 'calendar_new.dart';
 import 'manager_pin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import "package:it_schedule/model/database.dart";
+
 
 class StudentLocation extends StatefulWidget {
   // String location;
@@ -15,6 +18,7 @@ class _StudentLocationState extends State<StudentLocation> {
   bool? brownsville = false;
   bool? riobank = false;
   String location = "";
+  final user = FirebaseAuth.instance.currentUser!;
 
   void toggled() {
     print('button clicked');
@@ -77,7 +81,7 @@ class _StudentLocationState extends State<StudentLocation> {
                         riobank = value;
                         edinburg = false;
                         brownsville = false;
-                        location = 'edinburg';
+                        location = 'riobank';
                       });
                     }),
               ],
@@ -86,6 +90,7 @@ class _StudentLocationState extends State<StudentLocation> {
                 key: Key('continueDeviceButton'),
                 onPressed: // brownsville || edinburg || riobank ?
                     () {
+                  ClassHelper.saveLocation(user, location);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
