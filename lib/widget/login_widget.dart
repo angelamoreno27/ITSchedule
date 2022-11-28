@@ -5,9 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/calendar_new.dart';
+import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/main.dart';
 import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/utils.dart';
+import "package:it_schedule/model/database.dart";
+
 
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -141,7 +144,23 @@ class _LoginWidgetState extends State<LoginWidget> {
 
       Utils.showSnackBar(e.message);
     }
-    Navigator.push(context,
-        MaterialPageRoute(builder: ((context) => const CalendarScreen())));
+    User user = FirebaseAuth.instance.currentUser!;
+    // print(user);
+
+  // FutureBuilder(
+  //   future: ClassHelper.getSchedule(user),
+  //   builder: (context, snapshot) {
+      
+  //   },
+  // );
+  Future<String> role = Future(() => ClassHelper().getRole(user));
+  role.then( (value) {
+    if(value != "manager")
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const CalendarScreen())));
+    else
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => AdminPanel())));
+  });
   }
 }

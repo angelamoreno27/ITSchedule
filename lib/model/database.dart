@@ -15,7 +15,8 @@ class ClassHelper {
       "last_login": user?.metadata.lastSignInTime,
       "role": "user",
       "schedule": {},
-      "constantSchedule" : {}
+      "constantSchedule" : {},
+      "location": ""
     });
   }
 
@@ -25,7 +26,7 @@ class ClassHelper {
     Map<String, dynamic> userData = {
       "email": user?.email,
       "last_login": user?.metadata.lastSignInTime,
-      "role": "user",
+      "role": "student",
       "schedule": scheduleData,
       "constantSchedule" : scheduleData
     };
@@ -35,7 +36,7 @@ class ClassHelper {
     if ((await userRef.get()).exists) {
       await userRef.update({
         "last_login": user?.metadata.lastSignInTime,
-        "role": "student",
+        // "role": "student",
       });
     } else {
       await _db.collection("users").doc(user?.uid).update(userData);
@@ -69,6 +70,34 @@ class ClassHelper {
     Map<String, dynamic> schedule = {};
     await _db.collection("users").doc(userId).get().then((value) => /*schedule = value["schedule"]; */ schedule = value.data()?["schedule"]);
     return schedule;
+  }
+
+  static saveLocation(User? user, String location) async {
+    final userRef = _db.collection("users").doc(user?.uid);
+    await userRef.update({
+      "location": location,
+    });
+  }
+
+  Future<String> getLocation(User? user) async {
+    // await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]));
+    String location = "";
+    await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */ location = value.data()?["location"]);
+    return location;
+  }
+
+  static saveRole(User? user, String role) async {
+    final userRef = _db.collection("users").doc(user?.uid);
+    await userRef.update({
+      "role": role,
+    });
+  }
+
+  Future<String> getRole(User? user) async {
+    // await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */print(value.data()?["schedule"]));
+    String role = "";
+    await _db.collection("users").doc(user?.uid).get().then((value) => /*schedule = value["schedule"]; */ role = value.data()?["role"]);
+    return role;
   }
 
 }

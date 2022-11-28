@@ -4,10 +4,17 @@ import 'package:flutter/material.dart';
 import 'job_locations.dart';
 import 'student_info.dart';
 import 'studentDetails.dart';
+import "package:it_schedule/model/database.dart";
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminPanel extends StatelessWidget {
+
+  final user = FirebaseAuth.instance.currentUser!;
+
   @override
+
   Widget build(BuildContext context) {
+    ClassHelper.saveRole(user, "manager");
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Panel'),
@@ -32,7 +39,7 @@ ListView _adminPanel(BuildContext context) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => StudentDetailPage(index)));
+                      builder: (context) => StudentDetailPage(index, location[index].name)));
             },
           ),
         ),
