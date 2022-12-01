@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/calendar_new.dart';
+import 'package:it_schedule/Screens/home_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/main.dart';
 import 'package:it_schedule/model/constants.dart';
@@ -153,14 +154,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       
   //   },
   // );
-  Future<String> role = Future(() => ClassHelper().getRole(user));
-  role.then( (value) {
-    if(value != "manager")
       Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => const CalendarScreen())));
-    else
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => AdminPanel())));
-  });
+          MaterialPageRoute(builder: ((context) => HomePage())));
   }
 }

@@ -447,6 +447,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         error = "";
                         firebaseSchedule[x.toString()] = ["8:00-5:00"];
                         firebaseSchedule[x.toString()]?.add("Possible Worktime");
+                        firebaseSchedule[x.toString()]?.add("Job Not Chosen");
+                        firebaseSchedule[x.toString()]?.add("hide");
                         setState(() {});
                         day = day.add(const Duration(days: 1));
                         continue;                         
@@ -530,6 +532,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         else
                           firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseStartTime + "-" + currentDaySchedule[day]![y].courseEndTime);
                         firebaseSchedule[x.toString()]?.add(currentDaySchedule[day]![y].courseName);
+                        if(currentDaySchedule[day]![y].courseName == "Possible Worktime") {
+                          firebaseSchedule[x.toString()]?.add("0");
+                          firebaseSchedule[x.toString()]?.add("Job Not Chosen");
+                        }
                       }
                       setState(() {});
                       day = day.add(const Duration(days: 1));
@@ -569,11 +575,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     Map<String,dynamic> schedule = snapshot.data!;
                                     List<String> shiftString = ["", "", "", "", ""];
                                     for(int dayIndex = 0; dayIndex < 5; dayIndex++) {
-                                      if(schedule[dayIndex.toString()] != null)
+                                      if(schedule[dayIndex.toString()] != null) {
                                         for(int courseIndex = 0; courseIndex < schedule[dayIndex.toString()].length; courseIndex += 2) {
-                                          if(schedule[dayIndex.toString()][courseIndex + 1] == "Possible Worktime")
-                                            shiftString[dayIndex] = shiftString[dayIndex] + schedule[dayIndex.toString()][courseIndex] + ": " + schedule[dayIndex.toString()][courseIndex + 1] + "\n";
+                                          if(schedule[dayIndex.toString()][courseIndex + 1] == "Possible Worktime" || schedule[dayIndex.toString()][courseIndex + 1] == "Added Worktime") {
+                                            shiftString[dayIndex] = shiftString[dayIndex] + schedule[dayIndex.toString()][courseIndex] + ": " + schedule[dayIndex.toString()][courseIndex + 1] + " " + schedule[dayIndex.toString()][courseIndex + 3] + "\n";
+                                          }
                                         }
+                                      }
                                       if(shiftString[dayIndex] == "")
                                         shiftString[dayIndex] = "No Worktimes Available\n";
                                     }

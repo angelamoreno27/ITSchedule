@@ -4,6 +4,9 @@ import 'package:it_schedule/Screens/class_hours_screen.dart';
 import 'package:it_schedule/Screens/student_location.dart';
 import 'package:it_schedule/Screens/user_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
+import "package:it_schedule/model/database.dart";
+import 'package:it_schedule/Screens/calendar_new.dart';
+
 
 class HomePage extends StatelessWidget {
   @override
@@ -39,10 +42,21 @@ class HomePage extends StatelessWidget {
                     key: Key('continueDeviceButton'),
                     onPressed: //student || manager ?
                         () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserScreen()));
+
+                              Future<String> role = Future(() => ClassHelper().getRole(user));
+                              role.then( (value) {
+                                if(value == "student")
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: ((context) => const CalendarScreen())));
+                                else if(value == "manager")
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: ((context) => AdminPanel())));
+                                else
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserScreen()));
+                              });
                     }),
               ],
             )));

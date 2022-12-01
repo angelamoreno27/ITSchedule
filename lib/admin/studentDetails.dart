@@ -61,7 +61,7 @@ StreamBuilder _studentDetail(BuildContext context, String location) {
     if(snapshot.hasData) {
       List<int> studentIndices = [];
       for(int i = 0; i < snapshot.data!.docs.length; i++)
-        if(snapshot.data!.docs[i]['role'] != "manager" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == location)
+        if(snapshot.data!.docs[i]['role'] == "student" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == location)
         // if(snapshot.data!.docs[i]['email'][0] == 't')
           studentIndices.add(i);
       return ListView.builder(
