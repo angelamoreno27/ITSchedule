@@ -30,14 +30,14 @@ class ClassSchedule extends StatelessWidget {
                   Text(weekdays[i]),
                   if(docSnapshot['schedule'][i.toString()] != null)
                   for(int j = 0; j < docSnapshot['schedule'][i.toString()].length; j+=2)...[
-                    if(docSnapshot['schedule'][i.toString()][j+1] != "Possible Worktime")
-                    Row(
-                      children: [
-                        Spacer(flex: 1),                
-                        Text("${docSnapshot['schedule'][i.toString()][j]}  ${docSnapshot['schedule'][i.toString()][j+1]}"),
-                        Spacer(flex: 1),
-                      ],
-                    )
+                    if(docSnapshot['schedule'][i.toString()][j+1] != "Possible Worktime" && docSnapshot['schedule'][i.toString()][j+1] != "Added Worktime" && docSnapshot['schedule'][i.toString()][j] != "1" && docSnapshot['schedule'][i.toString()][j] != "0")
+                      Row(
+                        children: [
+                          Spacer(flex: 1),                
+                          Text("${docSnapshot['schedule'][i.toString()][j]}  ${docSnapshot['schedule'][i.toString()][j+1]}"),
+                          Spacer(flex: 1),
+                        ],
+                      )
                   ]
                 ],
               ]

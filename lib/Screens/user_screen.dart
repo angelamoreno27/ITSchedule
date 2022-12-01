@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/manager_pin.dart';
 import 'package:it_schedule/Screens/student_location.dart';
+import 'package:it_schedule/model/database.dart';
 import 'package:it_schedule/widget/signup_widget.dart';
 import 'jobs_screen.dart';
 import 'student_submission_screen.dart';
@@ -17,6 +18,7 @@ class _UserScreenState extends State<UserScreen> {
   bool? manager = false;
   bool? student = false;
   String user = "";
+  final currentUser = FirebaseAuth.instance.currentUser!;
   bool idk = false;
 
   void toggled() {
@@ -78,6 +80,7 @@ class _UserScreenState extends State<UserScreen> {
                       student! || manager! ?
                     () {
                       if(student!){
+                        ClassHelper.saveRole(currentUser, "student");
                         Navigator.push(
                         context,
                         MaterialPageRoute(

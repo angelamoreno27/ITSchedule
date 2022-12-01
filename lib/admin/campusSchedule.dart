@@ -53,24 +53,21 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                 Map<String, List<String>> locationShifts = {};
 
                 for(int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if(snapshot.data!.docs[i]['role'] != "manager" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == widget.location) {
+                  if(snapshot.data!.docs[i]['role'] == "student" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == widget.location) {
                     // check their schedule and add their shifts to campus schedule if they work that day
                     for(int j = 0; j < 5; j++) {
-                      print("hello");
-                  print(snapshot.data!.docs[i]['schedule']);
-                      print("chello");
 
       // for(int i = 0; i < snapshot.data!.docs.length; i++)
       //   if(snapshot.data!.docs[i]['role']
 
                       if(snapshot.data!.docs[i]['schedule'][j.toString()] != null) {
                         for(int k = 0; k < snapshot.data!.docs[i]['schedule'][j.toString()].length; k+=2) {
-                          if(snapshot.data!.docs[i]['schedule'][j.toString()][k+1] == "Possible Worktime") {
+                          if((snapshot.data!.docs[i]['schedule'][j.toString()][k+1] == "Possible Worktime" || snapshot.data!.docs[i]['schedule'][j.toString()][k+1] == "Added Worktime") && snapshot.data!.docs[i]['schedule'][j.toString()][k + 2] != 1.toString()) {
                             if(locationShifts[j.toString()]  == null) {
-                              locationShifts[j.toString()]  = [snapshot.data!.docs[i]['name'] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k]];
+                              locationShifts[j.toString()]  = [snapshot.data!.docs[i]['name'] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k + 3]];
                             }
                             else {
-                              locationShifts[j.toString()] ?.add(snapshot.data!.docs[i]['name'] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k]);
+                              locationShifts[j.toString()] ?.add(snapshot.data!.docs[i]['name'] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k] + " " + snapshot.data!.docs[i]['schedule'][j.toString()][k + 3]);
                             }
                           }
                         }
@@ -78,13 +75,11 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                     }
                   }
                 }
-                print(locationShifts[1.toString()]![0]);
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     print(index);
-                    print(locationShifts[index.toString()]![0]);
                       return InkWell(
                         child: Container(
                           width: 200,
