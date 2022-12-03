@@ -46,4 +46,50 @@ void main() {
 
     expect(find.text("123@test.com"), findsOneWidget);
   });
+
+  testWidgets('Student Login', (WidgetTester tester) async {
+    final login = find.byKey(ValueKey("login_btn"));
+    final email_login = find.byKey(ValueKey("email_login"));
+    final password_login = find.byKey(ValueKey("password_login"));
+    final account_login = find.byKey(ValueKey("_sign_in"));
+
+    await tester.pumpWidget(MaterialApp(home: MainPage()));
+    await tester.tap(login);
+    await tester.enterText(email_login, "student@test.com");
+    await tester.enterText(password_login, "password");
+    await tester.tap(account_login);
+    await tester.pump();
+
+    expect(find.text("Month"), findsOneWidget);
+  });
+
+  testWidgets('Manager Login', (WidgetTester tester) async {
+    final login = find.byKey(ValueKey("login_btn"));
+    final email_login = find.byKey(ValueKey("email_login"));
+    final password_login = find.byKey(ValueKey("password_login"));
+    final account_login = find.byKey(ValueKey("_sign_in"));
+
+    await tester.pumpWidget(MaterialApp(home: MainPage()));
+    await tester.tap(login);
+    await tester.enterText(email_login, "admin@test.com");
+    await tester.enterText(password_login, "password");
+    await tester.tap(account_login);
+    await tester.pump();
+
+    expect(find.text("Edinburg"), findsOneWidget);
+  });
+
+  testWidgets('Manager Edit Shift', (WidgetTester tester) async {
+    final login = find.byKey(ValueKey("login_btn"));
+    final email_login = find.byKey(ValueKey("email_login"));
+    final password_login = find.byKey(ValueKey("password_login"));
+    final account_login = find.byKey(ValueKey("_sign_in"));
+
+    await tester.pumpWidget(MaterialApp(home: MainPage()));
+    await tester.tap(login);
+    await tester.enterText(email_login, "admin@test.com");
+    await tester.enterText(password_login, "password");
+    await tester.tap(account_login);
+    await tester.pump();
+  });
 }
