@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:it_schedule/Screens/user_screen.dart';
 import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/widget/new_login_screen.dart';
 import 'package:it_schedule/widget/new_signin_screen.dart';
@@ -33,7 +34,7 @@ class LandingPage extends StatelessWidget {
             ),
             Row(
               children: [
-                GoToSignInPage(),
+                GoToSignUpPage(),
                 SizedBox(
                   width: 10,
                 ),
@@ -70,8 +71,8 @@ class LandingPage extends StatelessWidget {
   }
 }
 
-class GoToSignInPage extends StatelessWidget {
-  const GoToSignInPage({super.key});
+class GoToSignUpPage extends StatelessWidget {
+  const GoToSignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +82,12 @@ class GoToSignInPage extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => SignUpPage())));
+            context, MaterialPageRoute(builder: ((context) => SignUpPage())));//signuppage
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
         child: Text(
-          "SignIn",
+          "Sign Up",
           style: TextStyle(color: Colors.red),
         ),
       ),
