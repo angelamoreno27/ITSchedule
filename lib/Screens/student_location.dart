@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:it_schedule/model/constants.dart';
 import 'user_screen.dart';
 import 'class_hours_screen.dart';
 import 'calendar_new.dart';
 import 'manager_pin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:it_schedule/model/database.dart";
-
 
 class StudentLocation extends StatefulWidget {
   // String location;
@@ -36,16 +36,19 @@ class _StudentLocationState extends State<StudentLocation> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Select your location",
-                style: TextStyle(
-                    fontSize: 20, color: Colors.blue, fontFamily: 'arial'),
+                style: TextStyle(fontSize: 40, color: largeText2),
                 key: Key('main')),
+            SizedBox(
+              height: 40,
+            ),
             Container(
                 child: Column(
               children: [
                 CheckboxListTile(
                     key: Key('edinburg-btn'),
+                    checkColor: isHoveringColor,
                     title:
-                        Text('Edinburg', style: TextStyle(color: Colors.blue)),
+                        Text('Edinburg', style: TextStyle(color: smallText2)),
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: edinburg,
                     onChanged: (bool? value) {
@@ -56,10 +59,14 @@ class _StudentLocationState extends State<StudentLocation> {
                         location = 'edinburg';
                       });
                     }),
+                SizedBox(
+                  height: 40,
+                ),
                 CheckboxListTile(
                     key: Key('brownsville-btn'),
+                    checkColor: isHoveringColor,
                     title: Text('Brownsville',
-                        style: TextStyle(color: Colors.blue)),
+                        style: TextStyle(color: smallText2)),
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: brownsville,
                     onChanged: (bool? value2) {
@@ -70,10 +77,14 @@ class _StudentLocationState extends State<StudentLocation> {
                         location = 'brownsville';
                       });
                     }),
+                SizedBox(
+                  height: 40,
+                ),
                 CheckboxListTile(
                     key: Key('riobank-btn'),
+                    checkColor: isHoveringColor,
                     title:
-                        Text('Rio Bank', style: TextStyle(color: Colors.blue)),
+                        Text('Rio Bank', style: TextStyle(color: smallText2)),
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: riobank,
                     onChanged: (bool? value) {
@@ -106,10 +117,10 @@ class _StudentLocationState extends State<StudentLocation> {
                 //: null,
                 ,
                 style: ElevatedButton.styleFrom(
-                    primary:  brownsville! || edinburg! || riobank! ?
-                        Colors.blue
-                     : Colors.grey,
-                    ),
+                  primary: brownsville! || edinburg! || riobank!
+                      ? backgroundColor
+                      : Colors.grey,
+                ),
                 child: Text('Continue'))
           ],
         )));

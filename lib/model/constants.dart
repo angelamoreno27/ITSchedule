@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 //Nav Bar Colors
-const _isHoveringColor = Colors.black;
+const isHoveringColor = Colors.black;
 const navBar_largeText = Color(0xFFFFFFFF);
 const navBar_smallText = Color(0xFFFFFFFF);
 
