@@ -67,6 +67,7 @@ class MainPage extends StatelessWidget {
             } else {
               return //AuthPage();
                   splashScreen();
+              //AdminPanel();
               //LoginPage();
               //SignUpPage();
               //UserScreen();

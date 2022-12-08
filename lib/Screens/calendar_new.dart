@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:it_schedule/model/constants.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:it_schedule/model/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -212,7 +213,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    const Text("Add Course Name Below"),
+                                    const Text(
+                                      "Add Course Name Below",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800),
+                                    ),
                                     TextFormField(
                                       decoration: const InputDecoration(
                                           hintStyle:
@@ -513,6 +518,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 flex: 1,
               ),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: backgroundColor,
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      minimumSize: Size(150, 50)),
                   onPressed: isDaySelected
                       ? () {
                           // print(firebaseSchedule);
@@ -734,6 +745,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
               // )
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: backgroundColor,
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      minimumSize: Size(150, 50)),
                   onPressed: /*firebaseSchedule.length > 0 ?*/ () {
                     showDialog(
                         context: context,
@@ -881,6 +898,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 flex: 1,
               ),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: backgroundColor,
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      minimumSize: Size(150, 50)),
                   onPressed: () async {
                     // setState(() {}),
                     await FirebaseAuth.instance.signOut();

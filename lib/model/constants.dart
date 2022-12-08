@@ -26,6 +26,6 @@ const backgroundColor = Color.fromRGBO(255, 62, 0, 100);
 const boxColor = Colors.white;
 
 //Button Colors
-const buttonColor = Color(0xFF3E00);
+const matchBGColor = Color(0xFF3E00);
 
 //
