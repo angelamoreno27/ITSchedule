@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
+import 'package:it_schedule/Screens/user_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/page/auth_page.dart';
 import 'package:it_schedule/provider/event_provider.dart';
@@ -66,8 +67,10 @@ class MainPage extends StatelessWidget {
             } else {
               return //AuthPage();
                   splashScreen();
+              //AdminPanel();
               //LoginPage();
               //SignUpPage();
+              //UserScreen();
             }
           },
         ),

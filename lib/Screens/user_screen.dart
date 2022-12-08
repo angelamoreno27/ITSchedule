@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/manager_pin.dart';
 import 'package:it_schedule/Screens/student_location.dart';
+import 'package:it_schedule/model/constants.dart';
+import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/model/database.dart';
 import 'package:it_schedule/widget/signup_widget.dart';
 import 'jobs_screen.dart';
@@ -32,24 +34,27 @@ class _UserScreenState extends State<UserScreen> {
         appBar: AppBar(
           leading: BackButton(),
         ),
+        backgroundColor: backgroundColor,
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Are you a manager or a student?",
+            const Text("Are you a manager or a student?",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.blue,
-                    fontFamily: 'Raleway',
+                    fontSize: 40,
+                    color: largeText2,
                     fontWeight: FontWeight.bold),
                 key: Key('main')),
+            SizedBox(
+              height: 40,
+            ),
             Container(
                 child: Column(
               children: [
                 CheckboxListTile(
                     key: Key('manager-btn'),
-                    title:
-                        Text('Manager', style: TextStyle(color: Colors.blue)),
+                    checkColor: isHoveringColor,
+                    title: Text('Manager', style: TextStyle(color: largeText)),
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: manager,
                     onChanged: (bool? value) {
@@ -59,10 +64,13 @@ class _UserScreenState extends State<UserScreen> {
                         user = 'manager';
                       });
                     }),
+                SizedBox(
+                  height: 40,
+                ),
                 CheckboxListTile(
                     key: Key('student-btn'),
-                    title:
-                        Text('Student', style: TextStyle(color: Colors.blue)),
+                    checkColor: isHoveringColor,
+                    title: Text('Student', style: TextStyle(color: largeText)),
                     controlAffinity: ListTileControlAffinity.trailing,
                     value: student,
                     onChanged: (bool? value2) {
@@ -76,31 +84,25 @@ class _UserScreenState extends State<UserScreen> {
             )),
             ElevatedButton(
                 key: Key('continueDeviceButton'),
-                onPressed:
-                      student! || manager! ?
-                    () {
-                      if(student!){
-                        ClassHelper.saveRole(currentUser, "student");
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StudentLocation()));
+                onPressed: student! || manager!
+                    ? () {
+                        if (student!) {
+                          ClassHelper.saveRole(currentUser, "student");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StudentLocation()));
+                        } else if (manager!) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManagerPIN()));
+                        }
                       }
-                      else if( manager!){
-                         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ManagerPIN()));
-                      }
-                    
-                }
-                  : null,
-
+                    : null,
                 style: ElevatedButton.styleFrom(
-                    primary: student! || manager! ?
-                        Colors.blue
-                    : Colors.grey,
-                    ),
+                  primary: student! || manager! ? backgroundColor : Colors.grey,
+                ),
                 child: Text('Continue')),
           ],
         )));

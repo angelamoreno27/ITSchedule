@@ -27,26 +27,26 @@ class _splashScreenState extends State<splashScreen> {
     final screenSizeWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: ResponsiveWidget.isMoblie(context)
-            ? AppBar(
-                iconTheme: IconThemeData(color: Colors.black),
-                backgroundColor: backgroundColor,
-                elevation: 0,
-                centerTitle: true,
-                title: const Text(
-                  'IT_Schedule',
-                  style: TextStyle(
-                    color: navBar_largeText,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 26,
-                  ),
-                ),
-              )
-            : PreferredSize(
-                preferredSize: Size(screenSize.width, 70),
-                child: TopBarContents(),
-              ),
-        drawer: const MenuDrawer(),
+        // appBar: ResponsiveWidget.isMoblie(context)
+        //     ? AppBar(
+        //         iconTheme: IconThemeData(color: Colors.black),
+        //         backgroundColor: backgroundColor,
+        //         elevation: 0,
+        //         centerTitle: true,
+        //         title: const Text(
+        //           'IT_Schedule',
+        //           style: TextStyle(
+        //             color: navBar_largeText,
+        //             fontWeight: FontWeight.w900,
+        //             fontSize: 26,
+        //           ),
+        //         ),
+        //       )
+        //     : PreferredSize(
+        //         preferredSize: Size(screenSize.width, 70),
+        //         child: TopBarContents(),
+        //       ),
+        //drawer: const MenuDrawer(),
         backgroundColor: backgroundColor,
         body: splashScreenBody());
   }

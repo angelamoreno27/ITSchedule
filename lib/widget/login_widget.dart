@@ -12,7 +12,6 @@ import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/utils.dart';
 import "package:it_schedule/model/database.dart";
 
-
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
 
@@ -133,7 +132,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator()));
+        builder: (context) => Center(child: CircularProgressIndicator()));
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -152,13 +151,13 @@ class _LoginWidgetState extends State<LoginWidget> {
     User user = FirebaseAuth.instance.currentUser!;
     // print(user);
 
-  // FutureBuilder(
-  //   future: ClassHelper.getSchedule(user),
-  //   builder: (context, snapshot) {
-      
-  //   },
-  // );
-      Navigator.push(context,
-          MaterialPageRoute(builder: ((context) => HomePage())));
+    // FutureBuilder(
+    //   future: ClassHelper.getSchedule(user),
+    //   builder: (context, snapshot) {
+
+    //   },
+    // );
+    Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => HomePage())));
   }
 }

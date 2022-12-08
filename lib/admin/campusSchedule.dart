@@ -53,7 +53,8 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                 Map<String, List<String>> locationShifts = {};
 
                 for(int i = 0; i < snapshot.data!.docs.length; i++) {
-                  if(snapshot.data!.docs[i]['role'] == "student" && snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == widget.location) {
+        if(snapshot.data!.docs[i]['role'] == "student" && snapshot.data!.docs[i]['location'].length > 0)
+        	if (snapshot.data!.docs[i]['location'][0].toUpperCase() + snapshot.data!.docs[i]['location'].substring(1) == widget.location)   {
                     // check their schedule and add their shifts to campus schedule if they work that day
                     for(int j = 0; j < 5; j++) {
 
