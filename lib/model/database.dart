@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, prefer_final_fields, unrelated_type_equality_checks, curly_braces_in_flow_control_structures
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:it_schedule/model/course.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, must_be_immutable, prefer_const_constructors, use_key_in_widget_constructors
+
 import 'package:it_schedule/model/constants.dart';
 
 import "timeslots.dart";

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, avoid_web_libraries_in_flutter, must_be_immutable, use_key_in_widget_constructors, library_private_types_in_public_api, prefer_interpolation_to_compose_strings, sized_box_for_whitespace, prefer_const_constructors, duplicate_ignore, deprecated_member_use, prefer_typing_uninitialized_variables, curly_braces_in_flow_control_structures, use_build_context_synchronously
+
 import 'dart:html';
 import 'dart:convert';
 
@@ -41,6 +43,7 @@ class _TimeDropDownButtonState extends State<TimeDropDownButton> {
     return StatefulBuilder(builder: ((context, setState) {
       return DropdownButton<String>(
         // iconSize: 0,
+        // ignore: prefer_const_constructors
         icon: Visibility(visible: false, child: Icon(Icons.arrow_downward)),
         value: widget.inputValue,
         onChanged: (String? value) {
@@ -552,9 +555,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               firebaseSchedule[x.toString()] = ["8:00-5:00"];
                               firebaseSchedule[x.toString()]
                                   ?.add("Possible Worktime");
+                              firebaseSchedule[x.toString()]?.add("0");
                               firebaseSchedule[x.toString()]
                                   ?.add("Job Not Chosen");
-                              firebaseSchedule[x.toString()]?.add("hide");
                               setState(() {});
                               day = day.add(const Duration(days: 1));
                               continue;

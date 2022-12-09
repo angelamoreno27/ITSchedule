@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, duplicate_import, use_key_in_widget_constructors, library_private_types_in_public_api, avoid_print, prefer_const_constructors, avoid_unnecessary_containers, deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/manager_pin.dart';
@@ -7,7 +9,6 @@ import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/model/database.dart';
 import 'package:it_schedule/widget/signup_widget.dart';
 import 'jobs_screen.dart';
-import 'student_submission_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:it_schedule/widget/login_widget.dart';
 
@@ -32,6 +33,8 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: matchBGColor,
           leading: BackButton(),
         ),
         backgroundColor: backgroundColor,
@@ -42,46 +45,51 @@ class _UserScreenState extends State<UserScreen> {
             const Text("Are you a manager or a student?",
                 style: TextStyle(
                     fontSize: 40,
-                    color: largeText2,
+                    color: largeText,
                     fontWeight: FontWeight.bold),
                 key: Key('main')),
             SizedBox(
               height: 40,
             ),
             Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 500),
                 child: Column(
-              children: [
-                CheckboxListTile(
-                    key: Key('manager-btn'),
-                    checkColor: isHoveringColor,
-                    title: Text('Manager', style: TextStyle(color: largeText)),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    value: manager,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        manager = value;
-                        student = false;
-                        user = 'manager';
-                      });
-                    }),
-                SizedBox(
-                  height: 40,
-                ),
-                CheckboxListTile(
-                    key: Key('student-btn'),
-                    checkColor: isHoveringColor,
-                    title: Text('Student', style: TextStyle(color: largeText)),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    value: student,
-                    onChanged: (bool? value2) {
-                      setState(() {
-                        student = value2;
-                        manager = false;
-                        user = 'student';
-                      });
-                    })
-              ],
-            )),
+                  children: [
+                    CheckboxListTile(
+                        key: Key('manager-btn'),
+                        checkColor: isHoveringColor,
+                        activeColor: boxColor,
+                        title:
+                            Text('Manager', style: TextStyle(color: largeText)),
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        value: manager,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            manager = value;
+                            student = false;
+                            user = 'manager';
+                          });
+                        }),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    CheckboxListTile(
+                        key: Key('student-btn'),
+                        checkColor: isHoveringColor,
+                        title:
+                            Text('Student', style: TextStyle(color: largeText)),
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        value: student,
+                        onChanged: (bool? value2) {
+                          setState(() {
+                            student = value2;
+                            manager = false;
+                            user = 'student';
+                          });
+                        })
+                  ],
+                )),
             ElevatedButton(
                 key: Key('continueDeviceButton'),
                 onPressed: student! || manager!

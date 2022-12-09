@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, library_private_types_in_public_api, unused_local_variable, avoid_unnecessary_containers, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:it_schedule/model/constants.dart';
 

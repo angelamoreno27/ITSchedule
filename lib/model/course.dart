@@ -4,6 +4,7 @@ class Course {
   String courseName;
   String courseStartTime;
   String courseEndTime;
+  // ignore: prefer_const_constructors
   TimeOfDay courseStart = TimeOfDay(hour: 1, minute: 1), courseEnd = TimeOfDay(hour: 1, minute: 1);
 
   Course(this.courseName, this.courseStartTime, this.courseEndTime,) {

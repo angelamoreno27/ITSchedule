@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import, use_key_in_widget_constructors, library_private_types_in_public_api, avoid_print, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_is_empty, deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
+import 'package:it_schedule/model/constants.dart';
 
 class ManagerPIN extends StatefulWidget {
   @override
@@ -17,14 +20,16 @@ class _ManagerPINState extends State<ManagerPIN> {
     TextStyle textStyle = TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.w500,
-      color: Colors.black.withBlue(40),
+      color: Colors.black,
     );
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     print("Code is $code");
     return Scaffold(
-      backgroundColor: Colors.black.withBlue(40),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
+        backgroundColor: matchBGColor,
+        elevation: 0,
         leading: BackButton(),
       ),
       body: Column(
@@ -32,9 +37,6 @@ class _ManagerPINState extends State<ManagerPIN> {
           Container(
               height: height * 0.85,
               width: width,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
               child: Column(
                 children: [
                   Expanded(
@@ -46,18 +48,20 @@ class _ManagerPINState extends State<ManagerPIN> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: Text(
-                              "Please enter manager PIN",
+                              "Please enter Manager PIN",
                               style: TextStyle(
-                                height: 5,
-                                fontSize: 23,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 40,
+                                color: largeText,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 8,
                   ),
                   Expanded(
                     flex: 2,
@@ -90,10 +94,16 @@ class _ManagerPINState extends State<ManagerPIN> {
                           ],
                         )),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Expanded(
                     flex: 5,
                     child: Container(
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: boxColor),
+                      width: 1200,
                       child: Column(
                         children: [
                           Expanded(
@@ -104,6 +114,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                     Expanded(
                                       flex: 1,
                                       child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           //height: double.maxFinite,
                                           onPressed: () {
                                             addDigit(1);
@@ -114,6 +126,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           // height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(2);
                                           },
@@ -123,6 +137,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           //height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(3);
                                           },
@@ -131,6 +147,9 @@ class _ManagerPINState extends State<ManagerPIN> {
                                   ],
                                 ),
                               )),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Expanded(
                               flex: 1,
                               child: Container(
@@ -140,6 +159,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           //height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(4);
                                           },
@@ -148,7 +169,10 @@ class _ManagerPINState extends State<ManagerPIN> {
                                     Expanded(
                                       flex: 1,
                                       child: ElevatedButton(
+
                                           //height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(5);
                                           },
@@ -158,6 +182,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           //height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(6);
                                           },
@@ -166,6 +192,9 @@ class _ManagerPINState extends State<ManagerPIN> {
                                   ],
                                 ),
                               )),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Expanded(
                               flex: 1,
                               child: Container(
@@ -175,6 +204,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           // height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(7);
                                           },
@@ -183,6 +214,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                     Expanded(
                                       flex: 1,
                                       child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           //height: double.maxFinite,
                                           onPressed: () {
                                             addDigit(8);
@@ -192,6 +225,8 @@ class _ManagerPINState extends State<ManagerPIN> {
                                     Expanded(
                                       flex: 1,
                                       child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           // height: double.maxFinite,
                                           onPressed: () {
                                             addDigit(9);
@@ -201,6 +236,9 @@ class _ManagerPINState extends State<ManagerPIN> {
                                   ],
                                 ),
                               )),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Expanded(
                               flex: 1,
                               child: Container(
@@ -211,17 +249,20 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                           //height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             backspace();
                                           },
                                           child: Icon(Icons.backspace_outlined,
-                                              color: Colors.black.withBlue(40),
-                                              size: 30)),
+                                              color: Colors.black, size: 30)),
                                     ),
                                     Expanded(
                                       flex: 1,
                                       child: ElevatedButton(
                                           // height: double.maxFinite,
+                                          style: ElevatedButton.styleFrom(
+                                              primary: backgroundColor),
                                           onPressed: () {
                                             addDigit(0);
                                           },
@@ -231,13 +272,14 @@ class _ManagerPINState extends State<ManagerPIN> {
                                       flex: 1,
                                       child: ElevatedButton(
                                         //height: double.maxFinite,
+                                        style: ElevatedButton.styleFrom(
+                                            primary: backgroundColor),
                                         onPressed: () => Navigator.of(context)
                                             .push(MaterialPageRoute(
                                                 builder: (context) =>
                                                     AdminPanel())),
                                         child: Icon(Icons.check,
-                                            color: Colors.black.withBlue(40),
-                                            size: 30),
+                                            color: Colors.black, size: 30),
                                       ),
                                     ),
                                   ],
@@ -302,10 +344,8 @@ class DigitHolder extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: index == selectedIndex ? Colors.blue : Colors.transparent,
+              color: index == selectedIndex ? backgroundColor : matchBGColor,
               offset: Offset(0, 0),
-              spreadRadius: 1.5,
-              blurRadius: 2,
             )
           ]),
       child: code.length > index
@@ -313,7 +353,7 @@ class DigitHolder extends StatelessWidget {
               width: 15,
               height: 15,
               decoration: BoxDecoration(
-                color: Colors.black.withBlue(40),
+                color: backgroundColor,
                 shape: BoxShape.circle,
               ),
             )

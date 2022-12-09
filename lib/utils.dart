@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, avoid_web_libraries_in_flutter, unnecessary_string_interpolations
+
 import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

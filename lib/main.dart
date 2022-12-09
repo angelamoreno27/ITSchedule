@@ -1,9 +1,10 @@
+// ignore_for_file: unused_import, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_declarations, unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
 import 'package:it_schedule/Screens/user_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';
 import 'package:it_schedule/page/auth_page.dart';
-import 'package:it_schedule/provider/event_provider.dart';
 import 'package:it_schedule/widget/new_login_screen.dart';
 import 'package:it_schedule/widget/new_signin_screen.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
         home: MainPage(),
       );*/
   Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => EventProvider(),
+        // create: (context) => EventProvider(),
+        create: (BuildContext context) {},
         child: MaterialApp(
           scaffoldMessengerKey: Utils().messengerKey,
           navigatorKey: navigatorKey,
@@ -65,12 +67,9 @@ class MainPage extends StatelessWidget {
               ClassHelper.saveUser(snapshot.data);
               return HomePage();
             } else {
-              return //AuthPage();
+              return 
                   splashScreen();
-              //AdminPanel();
-              //LoginPage();
-              //SignUpPage();
-              //UserScreen();
+              
             }
           },
         ),

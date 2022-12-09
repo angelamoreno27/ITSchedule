@@ -1,4 +1,5 @@
-import 'dart:html';
+
+// ignore_for_file: unused_import, use_key_in_widget_constructors, library_private_types_in_public_api, avoid_unnecessary_containers, prefer_const_constructors, duplicate_ignore, avoid_print, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'user_screen.dart';
@@ -23,7 +24,9 @@ class _EmailScreenState extends State<EmailScreen> {
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // ignore: prefer_const_constructors
             Text("Please enter your UTRGV email",
+                // ignore: prefer_const_constructors
                 style: TextStyle(
                     fontSize: 30,
                     color: Color.fromARGB(255, 255, 119, 0),
