@@ -1,8 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_import, use_key_in_widget_constructors, sort_child_properties_last, prefer_const_constructors, deprecated_member_use, curly_braces_in_flow_control_structures
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:it_schedule/Screens/class_hours_screen.dart';
 import 'package:it_schedule/Screens/student_location.dart';
 import 'package:it_schedule/Screens/user_screen.dart';
 import 'package:it_schedule/admin/admin_panel.dart';

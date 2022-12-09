@@ -1,7 +1,10 @@
+// ignore_for_file: unused_import, file_names, avoid_web_libraries_in_flutter, deprecated_member_use, prefer_const_constructors, use_build_context_synchronously, curly_braces_in_flow_control_structures, avoid_print, prefer_const_literals_to_create_immutables
+
 import 'dart:html';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:it_schedule/model/constants.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:it_schedule/model/course.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,8 +32,15 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Campus Schedule Page'),
+        backgroundColor: backgroundColor,
         actions: <Widget>[
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: matchBGColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                minimumSize: Size(350, 60)),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.push(
@@ -38,7 +48,11 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                   MaterialPageRoute(
                       builder: (context) => MainPage()));                      
             },
-            child: const Text("Sign Out")
+            child: const Text("Sign Out", style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w800)
+            )
           ),        
         ],
       ),
@@ -82,30 +96,57 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                   itemBuilder: (context, index) {
                     print(index);
                       return InkWell(
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          //color: Colors.blue[300],
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                  spreadRadius: 2,
-                                  color: Colors.blue.withOpacity(0.1),
-                                  blurRadius: 2)
-                            ]
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(weekdays[index]),                            
-                              if(locationShifts[index.toString()] != null)
-                                for(int j = 0; j < locationShifts[index.toString()]!.length; j++)
-                                  Text(locationShifts[index.toString()]![j], style: TextStyle(color: Colors.red)),
+                        
+                        child: // Container(
+                          Wrap( 
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: <Widget>[
+                              Spacer(flex: 1),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(weekdays[index],
+                                  style: TextStyle(
+                                  fontSize: 50, fontWeight: FontWeight.w800),
+                                  ),      
+                                  if(locationShifts[index.toString()] != null)
+                                    for(int j = 0; j < locationShifts[index.toString()]!.length; j++)
+                                      Center(
+                                        child: Text(locationShifts[index.toString()]![j],
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w800)
+                                      )),
+                                ],
+                              ),
+                              Spacer(flex: 1),
                             ],
-                          ),
-                        ),
+                          )
+                        //   width: 200,
+                        //   height: 200,
+                        //   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        //   //color: Colors.blue[300],
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(20),
+                        //     boxShadow: [
+                        //       BoxShadow(
+                        //           spreadRadius: 2,
+                        //           color: Colors.blue.withOpacity(0.1),
+                        //           blurRadius: 2)
+                        //     ]
+                        //   ),
+                        //   child: Column(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     crossAxisAlignment: CrossAxisAlignment.center,
+                        //     children: [
+                        //       Text(weekdays[index]),                            
+                        //       if(locationShifts[index.toString()] != null)
+                        //         for(int j = 0; j < locationShifts[index.toString()]!.length; j++)
+                        //           Text(locationShifts[index.toString()]![j], style: TextStyle(color: Colors.red)),
+                        //     ],
+                        //   ),
+                        // ),
                       );
                   }
                 );
@@ -114,7 +155,6 @@ class _CampusScheduleScreenState extends State<CampusScheduleScreen> {
                   return Text("Please wait...");
             }),
 
-            Text(widget.location, style: TextStyle(color: Colors.red)),
                 //             Text(
                 //   user.email!,
                 //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

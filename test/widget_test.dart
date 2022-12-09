@@ -5,22 +5,18 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-
 import 'package:it_schedule/main.dart';
-import 'package:it_schedule/widget/signup_widget.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets('Sign Up Testing', (WidgetTester tester) async {
-    final email = find.byKey(ValueKey("email"));
-    final pass = find.byKey(ValueKey("password"));
-    final confirm = find.byKey(ValueKey("confirm_pass"));
-    final sign_up = find.byKey(ValueKey("sign_up"));
+    final email = find.byKey(const ValueKey("email"));
+    final pass = find.byKey(const ValueKey("password"));
+    final confirm = find.byKey(const ValueKey("confirm_pass"));
+    // final sign_up = find.byKey(const ValueKey("sign_up"));
 
     await tester.pumpWidget(MaterialApp(home: MainPage()));
     await tester.enterText(email, "123@test.com");
@@ -32,64 +28,64 @@ void main() {
   });
 
   testWidgets('Login Testing', (WidgetTester tester) async {
-    final login = find.byKey(ValueKey("login_btn"));
-    final email_login = find.byKey(ValueKey("email_login"));
-    final password_login = find.byKey(ValueKey("password_login"));
-    final account_login = find.byKey(ValueKey("_sign_in"));
+    final login = find.byKey(const ValueKey("login_btn"));
+    final emailLogin = find.byKey(const ValueKey("email_login"));
+    final passwordLogin = find.byKey(const ValueKey("password_login"));
+    final accountLogin = find.byKey(const ValueKey("_sign_in"));
 
     await tester.pumpWidget(MaterialApp(home: MainPage()));
     await tester.tap(login);
-    await tester.enterText(email_login, "123@test.com");
-    await tester.enterText(password_login, "password");
-    await tester.tap(account_login);
+    await tester.enterText(emailLogin, "123@test.com");
+    await tester.enterText(passwordLogin, "password");
+    await tester.tap(accountLogin);
     await tester.pump();
 
     expect(find.text("123@test.com"), findsOneWidget);
   });
 
   testWidgets('Student Login', (WidgetTester tester) async {
-    final login = find.byKey(ValueKey("login_btn"));
-    final email_login = find.byKey(ValueKey("email_login"));
-    final password_login = find.byKey(ValueKey("password_login"));
-    final account_login = find.byKey(ValueKey("_sign_in"));
+    final login = find.byKey(const ValueKey("login_btn"));
+    final emailLogin = find.byKey(const ValueKey("email_login"));
+    final passwordLogin = find.byKey(const ValueKey("password_login"));
+    final accountLogin = find.byKey(const ValueKey("_sign_in"));
 
     await tester.pumpWidget(MaterialApp(home: MainPage()));
     await tester.tap(login);
-    await tester.enterText(email_login, "student@test.com");
-    await tester.enterText(password_login, "password");
-    await tester.tap(account_login);
+    await tester.enterText(emailLogin, "student@test.com");
+    await tester.enterText(passwordLogin, "password");
+    await tester.tap(accountLogin);
     await tester.pump();
 
     expect(find.text("Month"), findsOneWidget);
   });
 
   testWidgets('Manager Login', (WidgetTester tester) async {
-    final login = find.byKey(ValueKey("login_btn"));
-    final email_login = find.byKey(ValueKey("email_login"));
-    final password_login = find.byKey(ValueKey("password_login"));
-    final account_login = find.byKey(ValueKey("_sign_in"));
+    final login = find.byKey(const ValueKey("login_btn"));
+    final emailLogin = find.byKey(const ValueKey("email_login"));
+    final passwordLogin = find.byKey(const ValueKey("password_login"));
+    final accountLogin = find.byKey(const ValueKey("_sign_in"));
 
     await tester.pumpWidget(MaterialApp(home: MainPage()));
     await tester.tap(login);
-    await tester.enterText(email_login, "admin@test.com");
-    await tester.enterText(password_login, "password");
-    await tester.tap(account_login);
+    await tester.enterText(emailLogin, "admin@test.com");
+    await tester.enterText(passwordLogin, "password");
+    await tester.tap(accountLogin);
     await tester.pump();
 
     expect(find.text("Edinburg"), findsOneWidget);
   });
 
   testWidgets('Manager Edit Shift', (WidgetTester tester) async {
-    final login = find.byKey(ValueKey("login_btn"));
-    final email_login = find.byKey(ValueKey("email_login"));
-    final password_login = find.byKey(ValueKey("password_login"));
-    final account_login = find.byKey(ValueKey("_sign_in"));
+    final login = find.byKey(const ValueKey("login_btn"));
+    final emailLogin = find.byKey(const ValueKey("email_login"));
+    final passwordLogin = find.byKey(const ValueKey("password_login"));
+    final accountLogin = find.byKey(const ValueKey("_sign_in"));
 
     await tester.pumpWidget(MaterialApp(home: MainPage()));
     await tester.tap(login);
-    await tester.enterText(email_login, "admin@test.com");
-    await tester.enterText(password_login, "password");
-    await tester.tap(account_login);
+    await tester.enterText(emailLogin, "admin@test.com");
+    await tester.enterText(passwordLogin, "password");
+    await tester.tap(accountLogin);
     await tester.pump();
   });
 }

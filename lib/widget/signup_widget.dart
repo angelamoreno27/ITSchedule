@@ -1,15 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/Screens/home_screen.dart';
-import 'package:it_schedule/main.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:it_schedule/model/constants.dart';
-import 'package:it_schedule/utils.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
-//import 'package:firebase_options/firebase_options.dart';
 import 'package:it_schedule/model/database.dart';
 
 

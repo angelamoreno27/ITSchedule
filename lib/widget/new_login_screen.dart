@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:it_schedule/model/constants.dart';
 import 'package:it_schedule/widget/login_widget.dart';
@@ -16,7 +14,7 @@ class LoginPage extends StatelessWidget {
           child: Container(
               height: 800,
               width: 1200,
-              margin: EdgeInsets.symmetric(horizontal: 25),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), color: boxColor),
               child: LoginWidget(

@@ -1,13 +1,10 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_import, use_key_in_widget_constructors
 
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:it_schedule/model/constants.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'job_locations.dart';
-import 'student_info.dart';
 import 'studentDetails.dart';
 import "package:it_schedule/model/database.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +23,7 @@ class AdminPanel extends StatelessWidget {
 
 ListView _adminPanel(BuildContext context) {
   return ListView.builder(
-    itemCount: 3,
+    itemCount: location.length,
     itemBuilder: (_, index) {
       return Card(
         elevation: 100,

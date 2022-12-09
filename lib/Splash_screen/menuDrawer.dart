@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, file_names, avoid_web_libraries_in_flutter, prefer_const_constructors
+
 import 'dart:html';
 
 import 'package:flutter/material.dart';

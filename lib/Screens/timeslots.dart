@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state
+// ignore_for_file: no_logic_in_create_state, unused_import, curly_braces_in_flow_control_structures, prefer_const_constructors, avoid_unnecessary_containers, unnecessary_string_interpolations, sized_box_for_whitespace, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +30,10 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
           title: Text("Edit ${docSnapshot['name']} Time Slots"),
           backgroundColor: matchBGColor,
         ),
-        body: _classSchedule(context, widget.docSnapshot));
+        body: Center(
+          child: SingleChildScrollView(
+              child: _classSchedule(context, widget.docSnapshot)),
+        ));
   }
 }
 
@@ -107,11 +110,15 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                           firebaseSchedule[i.toString()]![j + 1] ==
                               "Added Worktime")
                         Container(
-                            color: firebaseSchedule[i.toString()]![j + 2] !=
-                                    1.toString()
-                                ? boxColor
-                                : backgroundColor,
-                            child: Container(
+                            width: 1500,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: boxColor),
+                            // color: firebaseSchedule[i.toString()]![j + 2] !=
+                            //         1.toString()
+                            //     ? boxColor
+                            //     : backgroundColor,
+                            child: Center(
                               child: Row(
                                 children: [
                                   //Spacer(flex: 1),
@@ -121,7 +128,7 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                           fontSize: 30,
                                           fontWeight: FontWeight.w800)),
                                   SizedBox(
-                                    width: 10,
+                                    width: 20,
                                   ),
                                   Text(
                                       "${firebaseSchedule[i.toString()]![j + 1]}",
@@ -129,7 +136,7 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                           fontSize: 30,
                                           fontWeight: FontWeight.w800)),
                                   SizedBox(
-                                    width: 10,
+                                    width: 20,
                                   ),
                                   Text(
                                       "${firebaseSchedule[i.toString()]![j + 3]}",
@@ -571,8 +578,11 @@ Widget _classSchedule(BuildContext context, DocumentSnapshot docSnapshot) {
                                   ),
                                 ],
                               ),
-                            ))
-                    ]
+                            )),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    ],
                 ],
               ];
             } else

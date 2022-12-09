@@ -1,7 +1,9 @@
+// ignore_for_file: unused_import, use_key_in_widget_constructors, library_private_types_in_public_api, annotate_overrides, avoid_print, prefer_const_constructors, avoid_unnecessary_containers, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:it_schedule/model/constants.dart';
 import 'user_screen.dart';
-import 'class_hours_screen.dart';
+
 import 'calendar_new.dart';
 import 'manager_pin.dart';
 import 'package:firebase_auth/firebase_auth.dart';

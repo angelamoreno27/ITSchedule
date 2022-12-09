@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, use_key_in_widget_constructors, library_private_types_in_public_api, non_constant_identifier_names, prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'user_screen.dart';
 
@@ -23,7 +25,9 @@ class _JobsScreenState extends State<JobsScreen> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                     Widget>[
+      // ignore: prefer_const_constructors
       Text("See schedule for:",
+          // ignore: prefer_const_constructors
           style: TextStyle(
               fontSize: 25,
               color: Color.fromARGB(255, 255, 119, 0),

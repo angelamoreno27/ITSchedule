@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names, unused_import, avoid_web_libraries_in_flutter, use_key_in_widget_constructors, camel_case_types, unused_local_variable, avoid_unnecessary_containers, deprecated_member_use
 
 import 'dart:html';
 import 'dart:ui';

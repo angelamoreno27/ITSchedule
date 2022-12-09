@@ -20,5 +20,6 @@ final List<jobLocations> location = [
     name: 'Riobank',
     id: 3,
   ),
+ 
+  // Add more locations if needed
 ];
-

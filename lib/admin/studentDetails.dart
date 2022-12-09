@@ -1,11 +1,9 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_key_in_widget_constructors, sort_child_properties_last, prefer_const_constructors, duplicate_ignore, deprecated_member_use, use_build_context_synchronously, no_leading_underscores_for_local_identifiers, avoid_print, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:it_schedule/Screens/class_schedule_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:it_schedule/model/constants.dart';
-import 'student_info.dart';
-import 'package:it_schedule/Screens/class_schedule_admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:it_schedule/main.dart';
 import 'campusSchedule.dart';
@@ -34,6 +32,7 @@ class StudentDetailPage extends StatelessWidget {
                               location: location,
                             )));
               },
+              // ignore: prefer_const_constructors
               child: Text("View Campus Schedule",
                   style: TextStyle(
                       color: Colors.white,
@@ -80,12 +79,14 @@ StreamBuilder _studentDetail(BuildContext context, String location) {
         if (snapshot.hasData) {
           List<int> studentIndices = [];
           for (int i = 0; i < snapshot.data!.docs.length; i++)
+            // ignore: curly_braces_in_flow_control_structures
             if (snapshot.data!.docs[i]['role'] == "student" &&
+                // ignore: curly_braces_in_flow_control_structures
                 snapshot.data!.docs[i]['location'].length > 0) if (snapshot
                         .data!.docs[i]['location'][0]
                         .toUpperCase() +
                     snapshot.data!.docs[i]['location'].substring(1) ==
-                location) // if(snapshot.data!.docs[i]['email'][0] == 't')
+                location) 
               studentIndices.add(i);
           return ListView.builder(
               itemCount: studentIndices.length,
@@ -98,7 +99,7 @@ StreamBuilder _studentDetail(BuildContext context, String location) {
                     height: 200,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
-                    //color: Colors.blue[300],
+                    
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
@@ -111,12 +112,10 @@ StreamBuilder _studentDetail(BuildContext context, String location) {
                         const SizedBox(height: 10),
                         Text('Student Email : ${docSnapshot['email']}'),
                         const SizedBox(height: 10),
-                        // Text('Database Role : ${docSnapshot['role']}'),
-                        // const SizedBox(height: 10),
+                        
                         Text('Position: currently unavailable'),
                         const SizedBox(height: 10),
-                        // Text('ID : ${docSnapshot.id}'),
-                        // const SizedBox(height: 10),
+                      
                         Text('Location : ${docSnapshot['location']}'),
                         const SizedBox(height: 10),
                       ],
