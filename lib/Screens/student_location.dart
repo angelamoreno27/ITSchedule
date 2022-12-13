@@ -31,74 +31,86 @@ class _StudentLocationState extends State<StudentLocation> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: matchBGColor,
           leading: BackButton(),
+          elevation: 0,
         ),
+        backgroundColor: backgroundColor,
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Select your location",
-                style: TextStyle(fontSize: 40, color: largeText2),
+                style: TextStyle(
+                    fontSize: 40,
+                    color: largeText2,
+                    fontWeight: FontWeight.bold),
                 key: Key('main')),
             SizedBox(
               height: 40,
             ),
             Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 500),
                 child: Column(
-              children: [
-                CheckboxListTile(
-                    key: Key('edinburg-btn'),
-                    checkColor: isHoveringColor,
-                    title:
-                        Text('Edinburg', style: TextStyle(color: smallText2)),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    value: edinburg,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        edinburg = value;
-                        brownsville = false;
-                        riobank = false;
-                        location = 'edinburg';
-                      });
-                    }),
-                SizedBox(
-                  height: 40,
-                ),
-                CheckboxListTile(
-                    key: Key('brownsville-btn'),
-                    checkColor: isHoveringColor,
-                    title: Text('Brownsville',
-                        style: TextStyle(color: smallText2)),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    value: brownsville,
-                    onChanged: (bool? value2) {
-                      setState(() {
-                        brownsville = value2;
-                        edinburg = false;
-                        riobank = false;
-                        location = 'brownsville';
-                      });
-                    }),
-                SizedBox(
-                  height: 40,
-                ),
-                CheckboxListTile(
-                    key: Key('riobank-btn'),
-                    checkColor: isHoveringColor,
-                    title:
-                        Text('Rio Bank', style: TextStyle(color: smallText2)),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    value: riobank,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        riobank = value;
-                        edinburg = false;
-                        brownsville = false;
-                        location = 'riobank';
-                      });
-                    }),
-              ],
-            )),
+                  children: [
+                    CheckboxListTile(
+                        key: Key('edinburg-btn'),
+                        checkColor: isHoveringColor,
+                        activeColor: boxColor,
+                        title: Text('Edinburg',
+                            style: TextStyle(color: smallText2)),
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        value: edinburg,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            edinburg = value;
+                            brownsville = false;
+                            riobank = false;
+                            location = 'edinburg';
+                          });
+                        }),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    CheckboxListTile(
+                        key: Key('brownsville-btn'),
+                        checkColor: isHoveringColor,
+                        activeColor: boxColor,
+                        title: Text('Brownsville',
+                            style: TextStyle(color: smallText2)),
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        value: brownsville,
+                        onChanged: (bool? value2) {
+                          setState(() {
+                            brownsville = value2;
+                            edinburg = false;
+                            riobank = false;
+                            location = 'brownsville';
+                          });
+                        }),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    CheckboxListTile(
+                        key: Key('riobank-btn'),
+                        checkColor: isHoveringColor,
+                        activeColor: boxColor,
+                        title: Text('Rio Bank',
+                            style: TextStyle(color: smallText2)),
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        value: riobank,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            riobank = value;
+                            edinburg = false;
+                            brownsville = false;
+                            location = 'riobank';
+                          });
+                        }),
+                  ],
+                )),
+                SizedBox(height: 40,),
             ElevatedButton(
                 key: Key('continueDeviceButton'),
                 onPressed: // brownsville || edinburg || riobank ?
