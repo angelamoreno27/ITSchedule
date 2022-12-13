@@ -77,6 +77,7 @@ class _UserScreenState extends State<UserScreen> {
                     CheckboxListTile(
                         key: Key('student-btn'),
                         checkColor: isHoveringColor,
+                        activeColor: boxColor,
                         title:
                             Text('Student', style: TextStyle(color: largeText)),
                         controlAffinity: ListTileControlAffinity.trailing,
@@ -90,6 +91,9 @@ class _UserScreenState extends State<UserScreen> {
                         })
                   ],
                 )),
+            SizedBox(
+              height: 40,
+            ),
             ElevatedButton(
                 key: Key('continueDeviceButton'),
                 onPressed: student! || manager!
